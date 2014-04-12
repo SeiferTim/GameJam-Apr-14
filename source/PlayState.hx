@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.effects.FlxGlitchSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -33,8 +34,12 @@ class PlayState extends FlxState
 	private var _eventPass:Bool = false;
 	private var _eventPlayerNo:Int = -1;
 	
-	private var _txtChoice1:GameFont;
-	private var _txtChoice2:GameFont;
+	private var _txtChoice1Main:GameFont;
+	private var _txtChoice2Main:GameFont;
+	
+	private var _txtChoice1:FlxGlitchSprite;
+	private var _txtChoice2:FlxGlitchSprite;
+	
 	private var _fakeChoice1:FakeUIElement;
 	private var _fakeChoice2:FakeUIElement;
 	private var _choices:Array<IUIElement>;
@@ -48,7 +53,8 @@ class PlayState extends FlxState
 	private var _txtWeek:GameFont;
 	private var _strWeek:String = "Week [weekno]";
 	
-	private var _txtEvent:GameFont;
+	private var _txtEvent:FlxGlitchSprite;
+	private var _txtEventMain:GameFont;
 	private var _eventTxtNo:Int;
 	
 	private var _btnNext:GameButton;
@@ -166,7 +172,10 @@ class PlayState extends FlxState
 		_txtWeek = new GameFont(10, 10, _strWeek.replace("[weekno]", Std.string(_weekNo+1)), GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEGOLD, "left", 18,0);
 		add(_txtWeek);
 		
-		_txtEvent = new GameFont(10, FlxG.height * 0.7, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22, Std.int(FlxG.width-20));
+		_txtEventMain = new GameFont(10, FlxG.height * 0.7, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22, Std.int(FlxG.width - 20));
+		
+		_txtEvent = new FlxGlitchSprite(_txtEventMain, 100);
+		_txtEvent.initPixels();
 		add(_txtEvent);
 		
 		_btnNext = new GameButton(0, 0, "NEXT", advanceEvent, GameButton.STYLE_GREEN, true, 0, 0, 18);
@@ -175,10 +184,14 @@ class PlayState extends FlxState
 		_btnNext.alpha = 0;
 		add(_btnNext);
 		
-		_txtChoice1 = new GameFont(140, FlxG.height * 0.7, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22, Std.int(FlxG.width - 150));
+		_txtChoice1Main = new GameFont(140, FlxG.height * 0.7, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22, Std.int(FlxG.width - 150));
+		_txtChoice1 = new FlxGlitchSprite(_txtChoice1Main, 100);
+		_txtChoice1.initPixels();
 		_txtChoice1.alpha = 0;
 		
-		_txtChoice2 = new GameFont(140, _txtChoice1.y + (_txtChoice1.height*2), "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22,Std.int(FlxG.width - 150));
+		_txtChoice2Main = new GameFont(140, _txtChoice1.y + (_txtChoice1.height*2), "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22,Std.int(FlxG.width - 150));
+		_txtChoice2 = new FlxGlitchSprite(_txtChoice2Main, 100);
+		_txtChoice2.initPixels();
 		_txtChoice2.alpha = 0;
 		
 		_grpChoices  = new FlxGroup();
@@ -240,6 +253,7 @@ class PlayState extends FlxState
 	private function startEvent():Void
 	{
 		_eventTxtNo = 0;
+		_txtWeek.text = _strWeek.replace("[weekno]", Std.string(_weekNo + 1));
 		_eventPlayerNo = getPlayerByRole( Reg.events[_weekNo].activePlayer);
 		_txtDesc.text = _strDesc.replace("[playerno]", Std.string(_eventPlayerNo+1)).replace("[role]", Enums.getRole(Reg.events[_weekNo].activePlayer));
 		
@@ -261,28 +275,32 @@ class PlayState extends FlxState
 		
 		if (_eventStage== STAGE_OPENING)
 		{
-			_txtEvent.text = Reg.events[_weekNo].opening[_eventTxtNo];
+			_txtEventMain.text = Reg.events[_weekNo].opening[_eventTxtNo];
+			_txtEvent.initPixels();
 			_txtEvent.alpha = 0;
 			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextIn }, txtEventAlpha);
 			GameControls.changeUIs([_btnNext]);
 		}
 		else if (_eventStage == STAGE_SHOWCHOICES)
 		{
-			_txtChoice1.text = Reg.events[_weekNo].choices[0].texts[0];
-			_txtChoice2.text = Reg.events[_weekNo].choices[1].texts[0];
-			_txtChoice2.y = _txtChoice1.y + _txtChoice1.height + 10;
-			_txtChoice1.updateFrameData();
-			_txtChoice1.draw();
+			_txtChoice1Main.text = Reg.events[_weekNo].choices[0].texts[0];
+			_txtChoice2Main.text = Reg.events[_weekNo].choices[1].texts[0];
+			_txtChoice2Main.y = _txtChoice1Main.y + _txtChoice1Main.height + 10;
+			
+			_txtChoice1Main.updateFrameData();
+			_txtChoice1Main.draw();
+			_txtChoice1.initPixels();
+			_txtChoice2.initPixels();
 			
 			if (_fakeChoice1 != null)
 				_fakeChoice1 = FlxDestroyUtil.destroy(_fakeChoice1);
 			if (_fakeChoice2 != null)
 				_fakeChoice2 = FlxDestroyUtil.destroy(_fakeChoice2);
 			
-			_fakeChoice1 = new FakeUIElement(_txtChoice1.x - 4, _txtChoice1.y - 4, Std.int(_txtChoice1.width + 8), Std.int(_txtChoice1.height + 8), chooseOne, null, false);
+			_fakeChoice1 = new FakeUIElement(_txtChoice1Main.x - 4, _txtChoice1Main.y - 4, Std.int(_txtChoice1Main.width + 8), Std.int(_txtChoice1Main.height + 8), chooseOne, null, false);
 			_grpChoices.add(_fakeChoice1);
 			
-			_fakeChoice2 = new FakeUIElement(_txtChoice2.x - 4, _txtChoice2.y - 4, Std.int(_txtChoice2.width + 8), Std.int(_txtChoice2.height + 8), chooseTwo, null, false);
+			_fakeChoice2 = new FakeUIElement(_txtChoice2Main.x - 4, _txtChoice2Main.y - 4, Std.int(_txtChoice2Main.width + 8), Std.int(_txtChoice2Main.height + 8), chooseTwo, null, false);
 			_grpChoices.add(_fakeChoice2);
 			
 			if (_chart != null)
@@ -299,9 +317,10 @@ class PlayState extends FlxState
 		else if (_eventStage == STAGE_SHOWOUTCOME)
 		{
 			if (_eventPass)
-				_txtEvent.text = Reg.events[_weekNo].choices[_eventChoice].passTexts[_eventTxtNo];
+				_txtEventMain.text = Reg.events[_weekNo].choices[_eventChoice].passTexts[_eventTxtNo];
 			else
-				_txtEvent.text = Reg.events[_weekNo].choices[_eventChoice].failTexts[_eventTxtNo];
+				_txtEventMain.text = Reg.events[_weekNo].choices[_eventChoice].failTexts[_eventTxtNo];
+			_txtEvent.initPixels();
 			_txtEvent.alpha = 0;
 			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextIn }, txtEventAlpha);
 			GameControls.changeUIs([_btnNext]);
@@ -310,15 +329,16 @@ class PlayState extends FlxState
 		{
 			if (_eventPass)
 			{
-				_txtEvent.text = _strRes.replace('[gl]', 'gain').replace('[stat]', Enums.getStat(Reg.events[_weekNo].choices[_eventChoice].passResult));
+				_txtEventMain.text = _strRes.replace('[gl]', 'gain').replace('[stat]', Enums.getStat(Reg.events[_weekNo].choices[_eventChoice].passResult));
 				_players[_eventPlayerNo].stats[Reg.events[_weekNo].choices[_eventChoice].passResult]++;
 			}
 			else
 			{
-				_txtEvent.text = _strRes.replace('[gl]', 'lose').replace('[stat]', Enums.getStat(Reg.events[_weekNo].choices[_eventChoice].failResult));
+				_txtEventMain.text = _strRes.replace('[gl]', 'lose').replace('[stat]', Enums.getStat(Reg.events[_weekNo].choices[_eventChoice].failResult));
 				_players[_eventPlayerNo].stats[Reg.events[_weekNo].choices[_eventChoice].failResult]--;
-				Reg.flags.push(Reg.events[_weekNo].choices[_eventChoice].flag.;
+				Reg.flags.push(Reg.events[_weekNo].choices[_eventChoice].flag);
 			}
+			_txtEvent.initPixels();
 			_txtEvent.alpha = 0;
 			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextIn }, txtEventAlpha);
 			GameControls.changeUIs([_btnNext]);
@@ -343,6 +363,7 @@ class PlayState extends FlxState
 	private function txtChoicesAlpha(Value:Float):Void
 	{
 		_chart.alpha = _txtChoice1.alpha = _txtChoice2.alpha = Value;
+		_txtChoice1.strength = _txtChoice2.strength = Std.int(100 - (Value * 100));
 	}
 	
 	private function advanceEvent():Void
@@ -392,15 +413,33 @@ class PlayState extends FlxState
 			_weekNo++;
 			if (_weekNo < Reg.events.length)
 			{
-				_txtWeek.text = _strWeek.replace("[weekno]", Std.string(_weekNo+1));
-				startEvent();
+				
+				FlxG.camera.fade(FlxColor.BLACK, .33,false, doneNextQuestOut);
+				
+			}
+			else
+			{
+				FlxG.camera.fade(FlxColor.BLACK, 1, false, doneAllEvents);
 			}
 		}
 	}
 	
+	private function doneAllEvents():Void
+	{
+		FlxG.switchState(new EndState());
+	}
+	
+	private function doneNextQuestOut():Void
+	{
+		startEvent();
+		FlxG.camera.fade(FlxColor.BLACK, .33, true);
+	}
+	
+	
 	private function txtEventAndBtnNextAlpha(Value:Float):Void
 	{
 		_txtEvent.alpha = _btnNext.alpha = Value;
+		_txtEvent.strength = Std.int(100 - (Value * 100));
 	}
 	
 	private function doneEventTextIn(T:FlxTween):Void
@@ -422,6 +461,7 @@ class PlayState extends FlxState
 	private function txtEventAlpha(Value:Float):Void
 	{
 		_txtEvent.alpha = Value;
+		_txtEvent.strength = Std.int(100 - (Value * 100));
 	}
 	
 	private function doneChooseFadeIn():Void

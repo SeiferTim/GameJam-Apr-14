@@ -21,7 +21,7 @@
 			<line>The Captain walks of the bridge and a few minutes later sparks fly from the opening!</line>
 			<line>Finally the Captain returns and says, "I don't think that worked very well.  So much for communications."</line>
 			<attrib>Physique</attrib>
-			<score>The communications systems are down!</score>
+			<score>The long range communications systems are down!</score>
 		</fail>
 	</choice_one>
 	<choice_two>
@@ -36,7 +36,7 @@
 			<line>"Alright I've got the codes right here"</line>
 			<line>He punches the code into the computer and it responds, "Incorrect code!  Communications permanently disabled!"</line>
 			<attrib>Luck</attrib>
-			<score>The communications systems are down!</score>
+			<score>The long range communications systems are down!</score>
 		</fail>
 	</choice_two>
 </event>
@@ -371,6 +371,195 @@
 			<line>"Well I guess that worked." the doctor said to the Gunner who just shrugged.</line>
 			<attrib>Judgement</attrib>
 			<score>Your crew was going crazy!</score>
+		</fail>
+	</choice_two>
+</event>
+<event>
+	<week>8</week>
+	<active_player>pilot</active_player>
+	<opening>
+		<line>As his ship and crew fall apart around him, the Captain stands in front of the viewer looking at the Aethon's destination.</line>
+		<line>As the weeks have passed the small red dot has steadily grown into a larger dot.</line>
+		<line>Now they very lose enough to see the effects of the terraforming.</line>
+		<line>The planet wasn't completely red, there were streaks of green and streaks of blue littering the landscape.</line>
+		<line>"When you see that..." the Captain thinks to himself.  "...maybe it is worth it."</line>
+		<line>"These colonies need our cargo, but at the same time I would like to survive myself."</line>
+		<line>The Pilot skipped back onto the bridge and took his seat at the navigation station.</line>
+		<line>"Uh, Captain.  We seem to be approaching an asteroid field."</line>
+		<line>"An asteroid field?  I don't see any asteroids."</line>
+		<line>"Here let me see if I can correct that."</line>
+		<line>The Pilot presses a button on his console and suddenly the view of Mars is obstructed by a mass of asteroids.</line>
+		<line>"Can you get us past them without hitting anything?"</line>
+		<line>"I'll have us through in a jiffy cap'n!"</line>
+	</opening>
+	<choice_one>
+		<line>”The field might end just past our scanners.  I could try flying around it."</line>
+		<attrib>Luck</attrib>
+		<pass>
+			<line>"I've got a course laid in and am just itching to go, Captain!"</line>
+			<line>"Alright go ahead." the Captain orders.</line>
+			<line>The ship begins moving towards the edge of the sensor range.</line>
+			<line>Just as the screen refreshes, the end of the field becomes clear.</line>
+			<line>"See there we go Cap'n.  Clear as the pool in my quarters!"</line>
+			<line>The Captain is taken aback.  "Pool in your quarters?  We don't have any pools on this ship!...nevermind...good job getting us around the asteroids.</line>
+			<attrib>Luck</attrib>
+		</pass>
+		<fail>
+			<line>"I've got a course laid in and am just itching to go, Captain!"</line>
+			<line>"Alright go ahead." the Captain orders.</line>
+			<line>The ship begins moving towards the edge of the sensor range.</line>
+			<line>Just as the screen refreshes, it becomes clear that the field goes on for quite some distance.</line>
+			<line>"Well doggonit, I was just sure those asteroids wouldn't be out there.  I guess I'll just cross my fingers and hope for the best!"</line>
+			<line>The Pilot turned the ship into the Asteroids.  After a handful of traumatic impacts, the ship emerges on the other side but scared from its passage.</line>
+			<attrib>Luck</attrib>
+			<score>Your ship was damaged by asteroids!</score>
+		</fail>
+	</choice_one>
+	<choice_two>
+		<line>"If I time it just right I can fly through the field without taking any damage."</line>
+		<attrib>Finesse</attrib>
+		<pass>
+			<line>"I've got this Cap'n.  Just line em up and I'll fly right through 'em"</line>
+			<line>"Right through 'em?  Will the ship survive that?"</line>
+			<line>"Absolutely! The butterflies witll guide me!"</line>
+			<line>The Captain mutters a short prayer as the Pilot waits poised over the throttle lever.</line>
+			<line>"Charge!!!!!!!" the Pilot yells as he rams the throttle lever all the way forward.</line>
+			<line>The ship soars deftly through the asteroids narrowly missing disaster by mere inches, but it emerges on the other side unscathed.</line>
+			<attrib>Finesse</attrib>
+		</pass>
+		<fail>
+			<line>"I've got this Cap'n.  Just line em up and I'll fly right through 'em"</line>
+			<line>"Right through 'em?  Will the ship survive that?"</line>
+			<line>"Absolutely! The butterflies witll guide me!"</line>
+			<line>The Captain mutters a short prayer as the Pilot waits poised over the throttle lever.</line>
+			<line>"Charge!!!!!!!" the Pilot yells as he rams the throttle lever all the way forward.</line>
+			<line>The Captain struggles to contain his own screams as he sees the oncoming asteroids on the viewer...and then feels their impact on the ships hull.</line>
+			<line>After a handful of traumatic impacts, the ship emerges on the other side but scared from its passage.</line>
+			<attrib>Finesse</attrib>
+			<score>Your ship was damaged by asteroids!</score>
+		</fail>
+	</choice_two>
+</event>
+<event>
+	<week>9</week>
+	<active_player>gunner</active_player>
+	<opening>
+		<line>Another week has passed and the Aethon is one week closer to successful completion of its mission.</line>
+		<line>Battered and broken, the ship and the screw limp forward.</line>
+		<line>Or perhaps they are drawn forward by the Red Planet which has become large enough to loom over the screen.</line>
+		<line>After the ship was safely past the asteroid field, the Gunner decided it was a good time to check the food stores again.</line>
+		<line>As he steps into the supply room, he hears the sound of tiny feet scuttering away.</line>
+		<line>"Tribbles?!" he thinks to himself.  "Nah, I've been watching too much Star Trek."</line>
+		<line>He peers under the nearest box and finds the culprit: "Rats!  I've got to do something!"</line>
+	</opening>
+	<choice_one>
+		<line>”I could push the boxes with the rats out the airlock."</line>
+		<attrib>Physique</attrib>
+		<pass>
+			<line>The Gunner begins pushing the supply boxes down the deck and into the airlock.</line>
+			<line>Once he has all the boxes stacked, he dons a spacesuit and enters the airlock.</line>
+			<line>"Here we go." he says as he opens the outer airlock doors and pushes the stack of boxes out into the void.</line>
+			<line>"No worrying about rats any more!"</line>
+			<attrib>Physique</attrib>
+		</pass>
+		<fail>
+			<line>The Gunner begins pushing the supply boxes down the deck and into the airlock.</line>
+			<line>Once he has all the boxes stacked, he dons a spacesuit and enters the airlock.</line>
+			<line>"Here we go." he says as he opens the outer airlock doors and tries to push the stack of boxes out into the void.</line>
+			<line>He breaks down when he realizes that the boxes are just too heavy.</line>
+			<line>"Well...I did what I could!"</line>
+			<attrib>Physique</attrib>
+			<score>Your food was infested by rats!</score>
+		</fail>
+	</choice_one>
+	<choice_two>
+		<line>"I could stomp on all the rats and kill them if I am quick enough."</line>
+		<attrib>Finesse</attrib>
+		<pass>
+			<line>The gunner removed his heavy equipment and poised near the front of the supply room.</line>
+			<line>"Finally some action!" he laughed to himself.</line>
+			<line>He sprang forward and onto the first rat.  Then onto the next one and the next and next until all the rats had been squashed.</line>
+			<line>"No worrying about rats any more!"</line>
+			<attrib>Finesse</attrib>
+		</pass>
+		<fail>
+			<line>The gunner removed his heavy equipment and poised near the front of the supply room.</line>
+			<line>"Finally some action!" he laughed to himself.</line>
+			<line>He sprang forward and onto the first rat.  But when he lifted his boot to see the carnage, the floor was clean.</line>
+			<line>"What?!"  He tried to jump on another rat...and another...and one more!  But the rats were just too quick for him,</line>
+			<line>"Well...I did what I could!"</line>
+			<attrib>Finesse</attrib>
+			<score>Your food was infested by rats!</score>
+		</fail>
+	</choice_two>
+</event>
+<event>
+	<week>10</week>
+	<active_player>captain</active_player>
+	<opening>
+		<line>The final week.</line>
+		<line>The image of Mars on the viewer is large enough to make out all of the fine details.</line>
+		<line>"Aethon you are cleared for landing on spaceway one-two-niner left" called the voice from the short-wave radio.</line>
+		<line>"Roger, this is Aethon on approach." the Pilot replied.</line>
+		<line>Mars grew bigger and bigger until it was the only thing on the viewer.</line>
+		<line>Finally the landing pad became visible and the Pilot took the ship in.</line>
+		<line>With a soft thud the ship settled on the pad.</line>
+		<line>"Alright crew!  This is the fourth quarter!  The 23rd hour!  Let's unload and get to our well earned rest." the Captain says </line>
+		<line>The crew walks into the cargo bay and lowers the massive cargo bay ramp.  The Captain walks to the end of the ramp and steps onto Martian soil.</line>
+		<line>"Let's get these horses off!  Lead 'em down one by one!"</line>
+		<line>"Here we go!" the Gunner said to the first horse.  He began leading them down but somehow startled the horse who then ran away and down the deck.  The other horses followed.</line>
+		<line>"It's a stampede!" the Captain yelled.  "We've got to stop them!"</line>
+	</opening>
+	<choice_one>
+		<line>”I could gun down the horses to save myself and my crew."</line>
+		<attrib>Judgement</attrib>
+		<pass>
+			<line>The Captain draws his assault rife and takes aim at the first horse, but then he hesitates.</line>
+			<line>"I can't kill these horses after getting them this far!"</line>
+			<line>Images of the trips events flashed before his eyes.</line>
+			<line>He throws his rifle to his crew and as they move to catch it they move out of the horses way.</line>
+			<line>"Now that they are safe lets catch some horses."</line>
+			<line>As the first horse nears the Captain leaps into the air and lands on the back of the lead horse.</line>
+			<line>He grabs the mane and leads the horse towards its pen on the surface.</line>
+			<line>The other horses follow and once they are all in the pen the Captain jumps down and closes the gate.</line>
+			<line>"I now pronounce you: Mission Accomplished."</line>
+			<attrib>Judgement</attrib>
+		</pass>
+		<fail>
+			<line>The Captain draws his assault rife and takes aim at the first horse, but then he hesitates.</line>
+			<line>"I can't kill these horses after getting them this far!"</line>
+			<line>"Images of the trips events flashed before his eyes."</line>
+			<line>And as he realizes what his crew has gone through with them, he realizes he can not let them die.</line>
+			<line>"Damn the colonists!"</line>
+			<line>"Damn Mars!"</line>
+			<line>"Damn...the...horses!"</line>
+			<line>And in one short motion the Caption squeezes the trigger and begins to fill the horses with hot lead.</line>
+			<line>A few moments later the entire herd lay wasted on the ramp and the planet's surface.</line>
+			<line>The mission is over.  All this way and all these hardships for nothing.</line>
+			<attrib>Physique</attrib>
+			<score>You killed all the horses!</score>
+		</fail>
+	</choice_one>
+	<choice_two>
+		<line>"I could jump on the lead horse and lead them to their pen."</line>
+		<attrib>Finesse</attrib>
+		<pass>
+			<line>As the first horse nears the Captain leaps into the air and lands on the back of the lead horse.</line>
+			<line>He grabs the mane and leads the horse towards its pen on the surface.</line>
+			<line>The other horses follow and once they are all in the pen the Captain jumps down and closes the gate.</line>
+			<line>"I now pronounce you: Mission Accomplished."</line>
+			<attrib>Finesse</attrib>
+		</pass>
+		<fail>
+			<line>As the first horse nears the Captain leaps into the air...</line>
+			<line>...unfortunately he doesn't leap high enough and the horse plows into him knocking him to the ground.</line>
+			<line>Suddenly, the terraforming sirens go off!</line>
+			<line>"Nooooooooooooooooooooo!" the Captain yells as the ground before the horses dissapears and reveals a massive cliff.</line>
+			<line>The horses in front stop but the ones behind charge forward pushing them off!</line>
+			<line>One by one they plunge to their death untill all the horses have crossed the threshold from life to death.</line>
+			<line>The mission is over.  All this way and all these hardships for nothing.</line>
+			<attrib>Finesse</attrib>
+			<score>You killed all the horses!</score>
 		</fail>
 	</choice_two>
 </event>

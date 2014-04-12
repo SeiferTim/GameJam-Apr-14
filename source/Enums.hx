@@ -22,7 +22,7 @@ class Enums
 		else if (Role == 'pilot')
 			return ROLE_PILOT;
 		else if (Role == 'doctor')
-			return ROLE_PILOT;
+			return ROLE_DOCTOR;
 		else if (Role == 'gunner')
 			return ROLE_GUNNER;
 		else if (Role == 'engineer')
