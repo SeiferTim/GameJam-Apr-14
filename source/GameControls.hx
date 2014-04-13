@@ -59,13 +59,13 @@ class GameControls
 		buildCommandList();
 		#if !FLX_NO_KEYBOAD
 		keys = [];
-		keys[LEFT] = ["LEFT", "A"];
-		keys[RIGHT] = ["RIGHT", "D"];
-		keys[UP] = ["UP", "W"];
-		keys[DOWN] = ["DOWN", "S"];
-		keys[FIRE] = ["X", "SPACE"];
-		keys[PAUSE] = ["P", "ESCAPE"];
-		keys[BACK] = ["ESCAPE"];
+		keys[LEFT] = ["LEFT"];
+		keys[RIGHT] = ["RIGHT"];
+		keys[UP] = ["UP"];
+		keys[DOWN] = ["DOWN"];
+		keys[FIRE] = ["SPACE", "ENTER", "RETURN"];
+		keys[PAUSE] = [];
+		keys[BACK] = [];
 		keys[SELRIGHT] = keys[RIGHT].concat(keys[DOWN]);
 		keys[SELLEFT] = keys[LEFT].concat(keys[UP]);
 		_defaultKeys = keys.copy();
@@ -229,7 +229,10 @@ class GameControls
 	
 	public static function newState(Buttons:Array<IUIElement>):Void
 	{
-		_selButton = -1;
+		if (Buttons.length > 0)
+			_selButton = 0;
+		else
+			_selButton = -1;
 		_uis = Buttons;
 		canInteract = false;
 	}
@@ -249,7 +252,7 @@ class GameControls
 		}
 		
 		_uis = UIs;
-		_selButton = -1;
+		_selButton = UIs.length > 0 ? -1 : 0;
 	}
 	
 	public static function checkScreenControls():Void
@@ -350,13 +353,20 @@ class GameControls
 				if (xPressed || rightPressed || leftPressed || downPressed || upPressed)
 				{
 					_pressDelay = INPUT_DELAY;
+					#if !FLX_NO_MOUSE
 					lastMouseMove = 0;
-					FlxG.mouse.visible = false;
+					#end
+					//FlxG.mouse.visible = false;
+					mouseSleep();
 					_selButton=0;
 				}
 			}
 			else
 			{
+				if (xPressed || rightPressed || leftPressed || downPressed || upPressed)
+				{
+					mouseSleep();
+				}
 				if (_uis.length > 0)
 				{
 					if (xPressed)
@@ -372,16 +382,11 @@ class GameControls
 						{
 							if (rightPressed || downPressed)
 							{
-								
-								_selButton++;
-								if (_selButton >= _uis.length)
-									_selButton = 0;
+								moveCursor(POSITIVE);
 							}
 							else if (leftPressed || upPressed)
 							{
-								_selButton--;
-								if (_selButton < 0)
-									_selButton = _uis.length-1;
+								moveCursor(NEGATIVE);
 							}
 						}
 						else
@@ -410,6 +415,41 @@ class GameControls
 		}
 	}
 	
+	public static function moveCursor(Dir:Direction):Void
+	{
+		var p:Int = Dir == POSITIVE ? 1 : -1;
+		var startP:Int = _selButton + p;
+		var done:Bool=false;
+		while (!done)
+		{
+			if (startP  < 0)
+				startP = _uis.length - 1;
+			else if (startP >= _uis.length)
+				startP = 0;
+			if (_uis[startP].active  || startP == _selButton)
+			{
+				done = true;
+			}
+			else
+				startP += p;
+		}
+		_selButton = startP;
+		
+	}
+	
+	public static function mouseSleep():Void
+	{
+		#if !FLX_NO_MOUSE
+		
+		if (FlxG.mouse.visible)
+		{
+			FlxG.mouse.visible = false;
+			lastMouseMove = 0;
+		}
+		
+		#end
+	}
+	
 	#if !FLX_NO_MOUSE
 	public static function updateMouse():Void
 	{
@@ -426,25 +466,27 @@ class GameControls
 		}
 		if (lastMouseMove > 0)
 		{
-			if (canInteract)
+			if (canInteract && !FlxG.mouse.visible)
 				FlxG.mouse.visible = true;
 		}
 		else
 		{
-			FlxG.mouse.visible = false;
+			mouseSleep();
 		}
 		if (FlxG.mouse.visible)
 		{
 			var overAny:Bool = false;
 			for (i in 0..._uis.length)
 			{
-				
-				if (_uis[i].overlapsPoint(FlxG.mouse))
+				if (_uis[i].active)
 				{
-					_selButton = i;
-					if (FlxG.mouse.justReleased)
-						_uis[i].forceStateHandler(FakeUIElement.CLICK_EVENT);
-					overAny = true;
+					if (_uis[i].overlapsPoint(FlxG.mouse))
+					{
+						_selButton = i;
+						if (FlxG.mouse.justReleased)
+							_uis[i].forceStateHandler(FakeUIElement.CLICK_EVENT);
+						overAny = true;
+					}
 				}
 			}
 			if (!overAny)
@@ -452,4 +494,9 @@ class GameControls
 		}
 	}
 	#end
+}
+
+enum Direction {
+	POSITIVE;
+	NEGATIVE;
 }

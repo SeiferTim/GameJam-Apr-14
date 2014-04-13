@@ -2,18 +2,27 @@
 	<week>1</week>
 	<active_player>captain</active_player>
 	<opening>
-		<line>Everything is going smoothly as the Aethon leaves earth orbit and starts its journey towards the small red dot that is Mars.  The crew settles into their chairs on the command bridge.</line>
-		<line>“This has got to be one of the strangest missions I've ever had.” the Captain thinks to himself as he stares into the emptiness of the screen in front of him.</line>
+		<line>There it is...the Aethon.</line>
+		<line>The Aethon is one of Earth's more recent projects.  It is a spaceship designed primarily for transport within the star system.</line>
+		<line>It's current mission is to transport a herd of horses to Mars.  Horses have become very vital to the colonization project on Mars.</line>
+		<line>As the terraforming of Mars progresses, the natural reproduction of horses became a great advantage as it was a workforce that reproduced itself.</line>
+		<line>However there had been a number of 'accidents' involving the horses and the terraforming projects.  Apparently terraforming can be very violent.</line>
+		<line>One witness described it as if the ground sprung forth many spears and drove them through the horses' bodies.</line>
+		<line>Nevertheless, it was decided that maintaining the horse population was a high priority and the Aethon was dispatched to ensure the survival of the equestrian race on Mars...</line>
+		<line>Everything is going smoothly as the Aethon leaves Earth orbit and begins its journey to the small red dot on the viewscreen that is Mars.</line>
+		<line>The crew is settled into chairs at their respective workstations on the command bridge of the Aethon.</line>
+		<line>The Captain sits in his command chair at the center of the bridge and gazes at the viewer.</line>
+		<line>“This has got to be one of the strangest missions I've ever had.” the Captain thinks to himself as he stares at the tiny red dot surrounded by emptiness on the screen in front of him.</line>
 		<line>“Captain!”  says the Scientist.  “Our communications systems have gone offline!”</line>
-		<line>“Well that’s not very good.  Lets see what we can do.”</line>
+		<line>“Well that’s not very good." he replied "Lets see what we can do to fix that.”</line>
 	</opening>
-	<choice_one>
-		<line>”It’s probably something wrong with the long range transmission antenna. Let’s get someone out there to check it."</line>
+	<choice_two>
+		<line>”There is probably something wrong with the long range transmission antenna. Let’s get someone out there to check it."</line>
 		<attrib>Judgement</attrib>
 		<pass>
 			<line>"Engineer, go take a look at that antenna."</line>
 			<line>The Engineer heads off the bridge and a few minutes later returns.</line>
-			<line>"Communications are back online, Captain"</line>
+			<line>"Communications are back online, Captain."</line>
 			<attrib>Judgement</attrib>
 		</pass>
 		<fail>
@@ -23,30 +32,30 @@
 			<attrib>Physique</attrib>
 			<score>The long range communications systems are down!</score>
 		</fail>
-	</choice_one>
-	<choice_two>
+	</choice_two>
+	<choice_one>
 		<line>“We probably just need to reboot the communications computer.  One moment and I’ll send those reset codes.”</line>
 		<attrib>Intelligence</attrib>
 		<pass>
-			<line>"Alright I've got the codes right here"</line>
-			<line>He punches the code into the computer and it responds, "Communications Online"</line>
+			<line>"Alright I've got the codes right here."</line>
+			<line>He punches the code into the computer and it responds, "Communications Online."</line>
 			<attrib>Intelligence</attrib>
 		</pass>
 		<fail>
-			<line>"Alright I've got the codes right here"</line>
+			<line>"Alright I've got the codes right here."</line>
 			<line>He punches the code into the computer and it responds, "Incorrect code!  Communications permanently disabled!"</line>
 			<attrib>Luck</attrib>
 			<score>The long range communications systems are down!</score>
 		</fail>
-	</choice_two>
+	</choice_one>
 </event>
 <event>
 	<week>2</week>
 	<active_player>engineer</active_player>
 	<opening>
-		<line>After the communications fiasco, things returned to a much more calm state on the bridge.  The Captain begins to think again.</line>
-		<line>"I know that the terraforming of Mars is a big deal, but do they really need what we're carrying?"</line>
-		<line>He ponders that thought for a moment longer but the ideas in his head are interrupted by the wailing of the alarm again.</line>
+		<line>After the minor issue with communications, things returned to a much more calm state on the bridge.  The Captain begins to think again.</line>
+		<line>"I know that the colonization of Mars is pretty important, but do they really need to sacrifice all these horses?"</line>
+		<line>He ponders that thought for a moment longer but the ideas in his head are interrupted by the wailing of the alarm.</line>
 		<line>"What is it this time!"  he barks to the crew.</line>
 		<line>"The computer is reporting a coolant leak in the starboard engine room, sir!" replies the Engineer."</line>
 		<line>"Well don't just stand there!  Get it fixed!"</line>
@@ -58,7 +67,7 @@
 			<line>"On it Captain!" the Engineer yells as he races off the bridge.</line>
 			<line>He quickly runs into the engine room and start rotating the shut-off valve closed.</line>
 			<line>Finally the hissing coolant leak becomes silent.</line>
-			<line>"Coolant leak eliminated Captain" he reports as he returns to his station on the bridge</line>
+			<line>"Coolant leak has been eliminated Captain." he reports as he returns to his station on the bridge.</line>
 			<attrib>Finesse</attrib>
 		</pass>
 		<fail>
@@ -67,7 +76,7 @@
 			<line>Unfortunately he fails to notice that a small pool of coolant has formed on the ground and he slips as he steps into it.</line>
 			<line>As he falls to the deck, the engineer's head slams against the floor with a loud "dong!"</line>
 			<line>"Get him out of there Doc!" the Captain orders.  The Scientist grabs the Engineer's arms and pulls him to safety.</line>
-			<line>"We need to shut down that engine!" yells the Scientist.  "I can have him back in no time but it's pointless if the ship blows up."</line>
+			<line>"We need to shut down that engine!" yells the Scientist.  "I can have him back in no time but it's pointless if the ship blows up!"</line>
 			<line>"Make it so." says the Captain.  "Hopefully the Engineer can get it back running when he comes to."</line>
 			<attrib>Physique</attrib>
 			<score>The starboard engine is offline!</score>
@@ -78,14 +87,14 @@
 		<attrib>Physique</attrib>
 		<pass>
 			<line>"On it Captain!" the Engineer yells as he races off the bridge.</line>
-			<line>He quickly runs into the engine room and grabs a metal plate to weld the patch</line>
+			<line>He quickly runs into the engine room and grabs a metal plate to weld as a patch.</line>
 			<line>The pressure from the leak is no match for the Engineer's determination as he holds the plate in place and welds it solid.</line>
-			<line>"Coolant leak eliminated Captain" he reports as he returns to his station on the bridge</line>
+			<line>"Coolant leak has been eliminated Captain." he reports as he returns to his station on the bridge.</line>
 			<attrib>Physique</attrib>
 		</pass>
 		<fail>
 			<line>"On it Captain!" the Engineer yells as he races off the bridge.</line>
-			<line>He quickly runs into the engine room and grabs a metal plate to weld the patch</line>
+			<line>He quickly runs into the engine room and grabs a metal plate to weld as a patch.</line>
 			<line>The force from the leaking coolant is too much for the Engineer though and he can't hold the plate in place long enough for a weld.</line>
 			<line>"This isn't going to work!" he yells to the bridge. "I'll have to shut down the engine."</line>
 			<attrib>Judgement</attrib>
@@ -101,35 +110,35 @@
 		<line>"Finally I can get a chance to figure this out." thinks the Captain.</line>
 		<line>"I just don't understand how Terraforming is that dangerous.  You'd think they'd be able to..."</line>
 		<line>"Captain!"  the Pilot interrupts.  "My navigation systems are reporting that we are lost!"</line>
-		<line>"Well this mission isn't going to be very successful if we can't figure out how to get to Mars"</line>
-		<line>"Can't you just point us at the big red dot?" jokes the Scientist. "It's the only thing out there!"</line>
+		<line>"Well this mission isn't going to be very successful if we can't figure out how to get to Mars."</line>
+		<line>"Can't you just point us at the red dot?" jokes the Scientist. "It's the only thing out there!"</line>
 		<line>"It's not quite that simple!" the Pilot retorts.  "We need to get this fixed."</line>
 	</opening>
-	<choice_one>
+	<choice_two>
 		<line>”Maybe I just need to ping the Intergalactic Positioning System (IPS) again."</line>
 		<attrib>Luck</attrib>
 		<pass>
-			<line>The Pilot hits a button on his panel and the words "Intergalactic Positioning System (IPS) 0.7a - Locating Satellite" appear on-screen</line>
+			<line>The Pilot hits a button on his panel and the words "Intergalactic Positioning System (IPS) 0.7a - Locating Satellite" appear on-screen.</line>
 			<line>"Satellite located.  Refreshing Intergalactic Positioning System (IPS) data."</line>
 			<line>"That looks better." the Pilot says with a sigh of relief.  "We are back on track, Captain."</line>
 			<attrib>Luck</attrib>
 		</pass>
 		<fail>
-			<line>The Pilot hits a button on his panel and the words "Intergalactic Positioning System (IPS) 0.7a - Locating Satellite" appear on-screen</line>
-			<line>"Error #FFFFFF: Satellite out of range"</line>
-			<line>"Hmm.  Maybe they didn't plan on us actually leaving Earth.  I think we are out of luck, Captain"</line>
+			<line>The Pilot hits a button on his panel and the words "Intergalactic Positioning System (IPS) 0.7a - Locating Satellite" appear on-screen.</line>
+			<line>"Error #FFFFFF: Satellite out of range."</line>
+			<line>"Hmm.  Maybe they didn't plan on us actually leaving Earth.  I think we are out of luck, Captain."</line>
 			<attrib>Luck</attrib>
 			<score>You went off course!</score>
 		</fail>
-	</choice_one>
-	<choice_two>
+	</choice_two>
+	<choice_one>
 		<line>"I could determine our position from the stars!"</line>
 		<attrib>Logic</attrib>
 		<pass>
 			<line>"We don't need a navigation system!  I can navigate with the stars like my ancestors!"</line>
 			<line>The crew lets out a collective laugh.  "Are you sure about that?" the Scientist quips.</line>
 			<line>"Absolutely.  Just let me get a good look at them."</line>
-			<line>The Pilot stairs out the viewport for a few minutes</line>
+			<line>The Pilot stairs out the viewport for a few minutes.</line>
 			<line>"Alright I've got it.  Let me program this into the computer and we'll be on our way."</line>
 			<attrib>Physique</attrib>
 		</pass>
@@ -137,12 +146,12 @@
 			<line>"We don't need a navigation system!  I can navigate with the stars like my ancestors!"</line>
 			<line>The crew lets out a collective laugh.  "Are you sure about that?" the Scientist quips.</line>
 			<line>"Absolutely.  Just let me get a good look at them."</line>
-			<line>The Pilot stairs out the viewport for a few minutes</line>
+			<line>The Pilot stairs out the viewport for a few minutes.</line>
 			<line>"On second thought, I don't think this is going to work.  I guess I'll just aim for the red dot after all."</line>
 			<attrib>Judgement</attrib>
 			<score>You went off course!</score>
 		</fail>
-	</choice_two>
+	</choice_one>
 </event>
 <event>
 	<week>4</week>
@@ -150,22 +159,22 @@
 	<opening>
 		<line>At this point the Captain is starting to question their mission.</line>
 		<line>"It can't be worth all this.  This is just too much trouble for what we are doing."</line>
-		<line>The Gunner walks back to his station and says "You know guys, our food store aren't bad at all."</line>
-		<line>"I concur." replies the Scientist. "It's better than some of the food they served during my time at the South Pole"</line>
+		<line>The Gunner walks back to his station and says "You know guys, our food stores aren't bad at all."</line>
+		<line>"I concur." replies the Scientist. "It's better than some of the food they served during my time at the South Pole."</line>
 		<line>"You were at the South Pole?" asked the Engineer.</line>
-		<line>"Yes.  I practice my science at only the most remote places.  Why else would I of taken this assignment?"</line>
+		<line>"Of course!  I practice science at only the most remote places.  Why else would I of taken this assignment?"</line>
 		<line>The Gunner grabs his stomach and vomits into a waste receptacle.</line>
 		<line>"Oh my!  What could of caused that?" the Scientist wonders.  "Food poisoning!  I must act before the rest of the crew succumbs."</line>
 	</opening>
 	<choice_one>
-		<line>”I should analyse the food to determine the culprit"</line>
+		<line>”I should analyse the food to determine the culprit."</line>
 		<attrib>Logic</attrib>
 		<pass>
 			<line>The Scientist leaves the bridge to take and analyse samples of the food the Gunner had eaten.</line>
 			<line>"Bleep Bloop Bleep Bleep Bleep Bloop Bleep" the computer reports.</line>
 			<line>"Dammit I'm a doctor not a damn machine!  Speak English!"</line>
-			<line>"High levels of Campylobacter detected on sample number two"</line>
-			<line>"Alright!  We'll just pass on the refried lunar chicken and we'll be ok"</line>
+			<line>"High levels of Campylobacter detected on sample number two."</line>
+			<line>"Alright!  We'll just pass on the refried lunar chicken and we'll be ok."</line>
 			<attrib>Logic</attrib>
 		</pass>
 		<fail>
@@ -175,24 +184,24 @@
 			<line>"Inadequate sample sizes for proper analysis.  Analysis aborted."</line>
 			<line>"Inadequate sample size?  What the hell does that mean?  I think we should probably avoid eating anything for the time being."</line>
 			<attrib>Physique</attrib>
-			<score>Your crew has food poisioning!</score>
+			<score>Your crew has food poisoning!</score>
 		</fail>
 	</choice_one>
 	<choice_two>
-		<line>"I don't have time to analyse the food.  I've got to just pick the most likely source"</line>
+		<line>"I don't have time to analyse the food.  I've got to just pick the most likely source."</line>
 		<attrib>Luck</attrib>
 		<pass>
-			<line>"Hmm.  Refried lunar chicken, lettuce salad, everlasting jello, and Tang.  Which one is it."</line>
+			<line>"Hmm.  Refried lunar chicken, lettuce salad, everlasting Jell-o, and Tang.  Which one is it?"</line>
 			<line>"I think it's the chicken.  Everyone refrain from eating the chicken and we will be alright."</line>
 			<line>The crew follows the Scientist's directions and no other crew members become sick.</line>
 			<attrib>Luck</attrib>
 		</pass>
 		<fail>
-			<line>"Hmm.  Refried lunar chicken, lettuce salad, everlasting jello, and Tang.  Which one is it."</line>
+			<line>"Hmm.  Refried lunar chicken, lettuce salad, everlasting Jell-o, and Tang.  Which one is it."</line>
 			<line>"I think it's the salad.  Everyone refrain from eating the salad and we will be alright."</line>
 			<line>The crew follows the Scientist's directions, but after the Engineer and the Captain join the Gunner in sickbay, they began to doubt.</line>
 			<attrib>Physique</attrib>
-			<score>Your crew has food poisioning!</score>
+			<score>Your crew has food poisoning!</score>
 		</fail>
 	</choice_two>
 </event>
@@ -204,15 +213,15 @@
 		<line>"Things keep going wrong and sooner or later something is going to end this mission for us."</line>
 		<line>After the trouble with the food, the Captain assigned the Gunner to secure the food stores.</line>
 		<line>On his regular patrol, the Gunner notices that a few boxes of the food are missing.</line>
-		<line>"What happened?  We are going to need more than that!"</line>
+		<line>"What happened?  We are going to need more than what's left!"</line>
 	</opening>
-	<choice_one>
+	<choice_two>
 		<line>”I could carry up more food from the deep storage."</line>
 		<attrib>Physique</attrib>
 		<pass>
 			<line>The gunner walks down all one-hundred seventy nine steps to the deep storage, picks up a box of food and then walks back up all one-hundred seventy nine steps.</line>
 			<line>And then he does that for twenty more boxes because that's just who the Gunner is.</line>
-			<line>"This should be enough for a while"</line>
+			<line>"This should be enough for a while."</line>
 			<attrib>Physique</attrib>
 		</pass>
 		<fail>
@@ -223,8 +232,8 @@
 			<attrib>Finesse</attrib>
 			<score>Your crew ran out of food!</score>
 		</fail>
-	</choice_one>
-	<choice_two>
+	</choice_two>
+	<choice_one>
 		<line>"You know, I bet our cargo is pretty tasty.  I'm sure the crew would like horse steaks for a week or two."</line>
 		<attrib>Judgement</attrib>
 		<pass>
@@ -234,10 +243,10 @@
 			<attrib>Judgement</attrib>
 		</pass>
 		<fail>
-			<line>The Gunner heads to the cargo room door and draws his combat knife from its sheath on his belt</line>
+			<line>The Gunner heads to the cargo room door and draws his combat knife from its sheath on his belt.</line>
 			<line>The light glints off the knife and into the Gunner's eyes.  Death is in the air as he crouches ready to strike.</line>
 			<line>He presses the button to open the door and lunges forward into what lies beyond.</line>
-			<line>Unfortunately, what lies beyond is the Captain.  "Just what do you think you are doing Gunner?" the captain asks.</line>
+			<line>Unfortunately, what lies beyond is the Captain.  "Just what do you think you are doing Gunner?" the Captain asks.</line>
 			<line>"Just getting us some food, sir!"</line>
 			<line>"We just can't go eating the cargo now can we, crewman!  Do you think they'd send ships to carry cargo if they expected us to just eat it en route?"</line>
 			<line>"No I guess not sir"</line>
@@ -246,7 +255,7 @@
 			<attrib>Luck</attrib>
 			<score>Your crew ran out of food!</score>
 		</fail>
-	</choice_two>
+	</choice_one>
 </event>
 <event>
 	<week>6</week>
@@ -277,7 +286,7 @@
 			<line>The overload had raised to a painful pitch and the Engineer realized that he wasn't going to make it.</line>
 			<line>"Cut it off!" he yells.  The screams of the overload subside after the Scientist hits the button to shut down the engine.</line>
 			<attrib>Judgement</attrib>
-			<score>The port engine was offline!</score>
+			<score>The port engine is offline!</score>
 		</fail>
 	</choice_one>
 	<choice_two>
@@ -323,14 +332,14 @@
 		<line>"Aaaaaaaaaaaaaaaaahhhhhhhhhhhhhhh!!!!!!!!!!!" the Pilot cried out as he leapt from the floor and ran down the hall.</line>
 		<line>"My god he's gone mad!" the Scientist thinks.  "I've got to figure out how to deal with this!"</line>
 	</opening>
-	<choice_one>
+	<choice_two>
 		<line>”I could refer to the Diagnostic and Statistical Manual of Mental Disorders, 5th edition to determine the diagnosis."</line>
 		<attrib>Logic</attrib>
 		<pass>
 			<line>"Its gotta be in here somewhere" said the Scientist as he flipped through the many pages of the manual.</line>
 			<line>"Ablutophobia? That's not it.  Agyrophobia?  It's not that either.  Anthophobia?  Nope.  Atychiphobia!  That's it!"</line>
 			<line>The Scientist walks to where the Gunner is holding the Pilot.</line>
-			<line>"Now listen here.  Atychiphobia is nothing to be ashamed of.  We all feel it now and again."</line>
+			<line>"Now listen here.  Atychiphobia is nothing to be ashamed of.  We all get afraid of failure now and again."</line>
 			<line>"But you just can't let it overwhelm you."</line>
 			<line>"You're right Doc." the Pilot whimpered.  "Just give me a couple minutes.  I'll be fine."</line>
 			<attrib>Logic</attrib>
@@ -339,16 +348,16 @@
 			<line>"Its gotta be in here somewhere" said the Scientist as he flipped through the many pages of the manual.</line>
 			<line>"Ablutophobia? That's not it.  Agyrophobia?  It's not that either.  Anthophobia?  Nope.  Astraphobia!  That's it!"</line>
 			<line>The Scientist walks to where the Gunner is holding the Pilot.</line>
-			<line>"Now listen here.  Astraphobia is nothing to be ashamed of.  We all get afraid of failure now and again."</line>
+			<line>"Now listen here.  Astraphobia is nothing to be ashamed of.  We all feel it now and again."</line>
 			<line>"But you just can't let it overwhelm you."</line>
 			<line>The Pilot broke into laughter.  "I'm not afraid of the thunder and lightning, Doc.  All the butterflies will protect me!"</line>
 			<line>He then skipped down the hall and back onto the bridge.</line>
-			<line>"Well I guess that worked." the doctor said to the Gunner who just shrugged.</line>
+			<line>"Well I guess that worked." the doctor said to the Gunner, who just shrugged.</line>
 			<attrib>Logic</attrib>
 			<score>Your crew was going crazy!</score>
 		</fail>
-	</choice_one>
-	<choice_two>
+	</choice_two>
+	<choice_one>
 		<line>"I could use my vast medical experience to come to a diagnosis based on his symptoms."</line>
 		<attrib>Finesse</attrib>
 		<pass>
@@ -372,7 +381,7 @@
 			<attrib>Judgement</attrib>
 			<score>Your crew was going crazy!</score>
 		</fail>
-	</choice_two>
+	</choice_one>
 </event>
 <event>
 	<week>8</week>
@@ -380,7 +389,7 @@
 	<opening>
 		<line>As his ship and crew fall apart around him, the Captain stands in front of the viewer looking at the Aethon's destination.</line>
 		<line>As the weeks have passed the small red dot has steadily grown into a larger dot.</line>
-		<line>Now they very lose enough to see the effects of the terraforming.</line>
+		<line>Now they are close enough to see the effects of the terraforming.</line>
 		<line>The planet wasn't completely red, there were streaks of green and streaks of blue littering the landscape.</line>
 		<line>"When you see that..." the Captain thinks to himself.  "...maybe it is worth it."</line>
 		<line>"These colonies need our cargo, but at the same time I would like to survive myself."</line>
@@ -401,7 +410,7 @@
 			<line>The ship begins moving towards the edge of the sensor range.</line>
 			<line>Just as the screen refreshes, the end of the field becomes clear.</line>
 			<line>"See there we go Cap'n.  Clear as the pool in my quarters!"</line>
-			<line>The Captain is taken aback.  "Pool in your quarters?  We don't have any pools on this ship!...nevermind...good job getting us around the asteroids.</line>
+			<line>The Captain is taken aback.  "Pool in your quarters?  We don't have any pools on this ship!...never mind...good job getting us around the asteroids.</line>
 			<attrib>Luck</attrib>
 		</pass>
 		<fail>
@@ -409,7 +418,7 @@
 			<line>"Alright go ahead." the Captain orders.</line>
 			<line>The ship begins moving towards the edge of the sensor range.</line>
 			<line>Just as the screen refreshes, it becomes clear that the field goes on for quite some distance.</line>
-			<line>"Well doggonit, I was just sure those asteroids wouldn't be out there.  I guess I'll just cross my fingers and hope for the best!"</line>
+			<line>"Well doggone it, I was just sure those asteroids wouldn't be out there.  I guess I'll just cross my fingers and hope for the best!"</line>
 			<line>The Pilot turned the ship into the Asteroids.  After a handful of traumatic impacts, the ship emerges on the other side but scared from its passage.</line>
 			<attrib>Luck</attrib>
 			<score>Your ship was damaged by asteroids!</score>
@@ -421,7 +430,7 @@
 		<pass>
 			<line>"I've got this Cap'n.  Just line em up and I'll fly right through 'em"</line>
 			<line>"Right through 'em?  Will the ship survive that?"</line>
-			<line>"Absolutely! The butterflies witll guide me!"</line>
+			<line>"Absolutely! The butterflies will guide me!"</line>
 			<line>The Captain mutters a short prayer as the Pilot waits poised over the throttle lever.</line>
 			<line>"Charge!!!!!!!" the Pilot yells as he rams the throttle lever all the way forward.</line>
 			<line>The ship soars deftly through the asteroids narrowly missing disaster by mere inches, but it emerges on the other side unscathed.</line>
@@ -430,7 +439,7 @@
 		<fail>
 			<line>"I've got this Cap'n.  Just line em up and I'll fly right through 'em"</line>
 			<line>"Right through 'em?  Will the ship survive that?"</line>
-			<line>"Absolutely! The butterflies witll guide me!"</line>
+			<line>"Absolutely! The butterflies will guide me!"</line>
 			<line>The Captain mutters a short prayer as the Pilot waits poised over the throttle lever.</line>
 			<line>"Charge!!!!!!!" the Pilot yells as he rams the throttle lever all the way forward.</line>
 			<line>The Captain struggles to contain his own screams as he sees the oncoming asteroids on the viewer...and then feels their impact on the ships hull.</line>
@@ -452,7 +461,7 @@
 		<line>"Tribbles?!" he thinks to himself.  "Nah, I've been watching too much Star Trek."</line>
 		<line>He peers under the nearest box and finds the culprit: "Rats!  I've got to do something!"</line>
 	</opening>
-	<choice_one>
+	<choice_two>
 		<line>”I could push the boxes with the rats out the airlock."</line>
 		<attrib>Physique</attrib>
 		<pass>
@@ -471,8 +480,8 @@
 			<attrib>Physique</attrib>
 			<score>Your food was infested by rats!</score>
 		</fail>
-	</choice_one>
-	<choice_two>
+	</choice_two>
+	<choice_one>
 		<line>"I could stomp on all the rats and kill them if I am quick enough."</line>
 		<attrib>Finesse</attrib>
 		<pass>
@@ -491,7 +500,7 @@
 			<attrib>Finesse</attrib>
 			<score>Your food was infested by rats!</score>
 		</fail>
-	</choice_two>
+	</choice_one>
 </event>
 <event>
 	<week>10</week>
@@ -499,7 +508,7 @@
 	<opening>
 		<line>The final week.</line>
 		<line>The image of Mars on the viewer is large enough to make out all of the fine details.</line>
-		<line>"Aethon you are cleared for landing on spaceway one-two-niner left" called the voice from the short-wave radio.</line>
+		<line>"Aethon you are cleared for landing on space-way one-two-niner left" called the voice from the short-wave radio.</line>
 		<line>"Roger, this is Aethon on approach." the Pilot replied.</line>
 		<line>Mars grew bigger and bigger until it was the only thing on the viewer.</line>
 		<line>Finally the landing pad became visible and the Pilot took the ship in.</line>
@@ -552,11 +561,11 @@
 		</pass>
 		<fail>
 			<line>As the first horse nears the Captain leaps into the air...</line>
-			<line>...unfortunately he doesn't leap high enough and the horse plows into him knocking him to the ground.</line>
+			<line>...unfortunately he doesn't leap high enough and the horse ploughs into him knocking him to the ground.</line>
 			<line>Suddenly, the terraforming sirens go off!</line>
-			<line>"Nooooooooooooooooooooo!" the Captain yells as the ground before the horses dissapears and reveals a massive cliff.</line>
+			<line>"Nooooooooooooooooooooo!" the Captain yells as the ground before the horses disappears and reveals a massive cliff.</line>
 			<line>The horses in front stop but the ones behind charge forward pushing them off!</line>
-			<line>One by one they plunge to their death untill all the horses have crossed the threshold from life to death.</line>
+			<line>One by one they plunge to their death until all the horses have crossed the threshold from life to death.</line>
 			<line>The mission is over.  All this way and all these hardships for nothing.</line>
 			<attrib>Finesse</attrib>
 			<score>You killed all the horses!</score>

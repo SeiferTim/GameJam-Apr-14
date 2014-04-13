@@ -1,6 +1,9 @@
 package;
 
+import flash.geom.Rectangle;
 import flixel.addons.effects.FlxGlitchSprite;
+import flixel.addons.ui.FlxUIButton;
+import flixel.addons.ui.FlxUITypedButton;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -10,9 +13,12 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import flixel.util.FlxColorUtil;
 import flixel.util.FlxDestroyUtil;
+import flixel.util.FlxGradient;
 import flixel.util.FlxMath;
 import flixel.util.FlxRandom;
+import flixel.util.FlxRect;
 import lime.Constants.Window;
 using flixel.util.FlxSpriteUtil;
 using StringTools;
@@ -22,6 +28,8 @@ using StringTools;
  */
 class PlayState extends FlxState
 {
+	
+	private static inline var EVENT_TEXT_SIZE:Int = 24;
 	
 	private var STAGE_OPENING:Int = 0;
 	private var STAGE_SHOWCHOICES:Int = 1;
@@ -68,7 +76,9 @@ class PlayState extends FlxState
 	
 	private var _stars:StarBackground;
 	private var _chart:StatChart;
+	private var _playerBack:FlxSprite;
 	
+	private var _ship:Ship;
 	
 	/* Player Role Choose Stuff */
 	private var _grpPlayerSelect:FlxGroup;
@@ -79,8 +89,10 @@ class PlayState extends FlxState
 	
 	private var _choosePlayers:Array<Player>;
 	private var _picked:Array<Int> = [];
+	private var _backs:Array<FlxSprite> = [];
 	
-	
+	private var fakeUIs:Array<IUIElement> = [];
+	private var _sprs:Array<FlxSprite> = [];
 	
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -101,6 +113,8 @@ class PlayState extends FlxState
 	{
 		_loaded = true;
 		GameControls.canInteract = true;
+		//GameControls.moveCursor(POSITIVE);
+
 	}
 	
 	private function buildPlayerSelect():Void
@@ -109,19 +123,36 @@ class PlayState extends FlxState
 		
 		_grpPlayerSelect.add(new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK));
 		
-		var fakeUIs:Array<IUIElement> = new Array<IUIElement>();
+		
 		var fakeUI:FakeUIElement;
 		var txtRole:GameFont;
 		var chart:StatChart;
+		var back:FlxSprite;
+		var sprP:FlxSprite;
+		
 		for (i in 0...5)
 		{
-			fakeUI = new FakeUIElement(10 + (i * (10 + ((FlxG.width - 60) / 5))), 40, Std.int((FlxG.width - 60) / 5), Std.int(FlxG.height - 50), pickPlayer.bind(i),null, false);
+			fakeUI = new FakeUIElement(10 + (i * (10 + ((FlxG.width - 60) / 5))), 40, Std.int((FlxG.width - 60) / 5), Std.int(FlxG.height - 60), pickPlayer.bind(i),null, false);
 			fakeUIs.push(fakeUI);
 			_grpPlayerSelect.add(fakeUI);
+			
+			back = new FlxSprite(fakeUI.x, fakeUI.y).makeGraphic(Std.int(fakeUI.width), Std.int(fakeUI.height), 0x0,true);
+			back.drawRoundRect(0, 0, fakeUI.width, fakeUI.height, 10, 10, Enums.getRoleColor(i));
+			back.alpha = .6;
+			_grpPlayerSelect.add(back);			
+			_backs.push(back);
+			
 			txtRole = new GameFont(0, 0, Enums.getRole(i), GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEBLUE, "center", 18);
 			txtRole.x = fakeUI.x + (fakeUI.width / 2) - (txtRole.width / 2);
 			txtRole.y = fakeUI.y + 10;
+			
 			_grpPlayerSelect.add(txtRole);
+			
+			sprP = new FlxSprite(0, 0, "images/" + Enums.getRole(i) + ".png");
+			sprP.x = fakeUI.x + (fakeUI.width / 2) - (sprP.width / 2);
+			sprP.y = fakeUI.y + (fakeUI.height / 2) - (sprP.height / 2);
+			_grpPlayerSelect.add(sprP);
+			_sprs.push(sprP);
 			chart = new StatChart(fakeUI.x + (fakeUI.width / 2) - 60, fakeUI.y + fakeUI.height - 130, _choosePlayers[i]);
 			_grpPlayerSelect.add(chart);
 		}
@@ -133,7 +164,15 @@ class PlayState extends FlxState
 		_txtChoose.text = _strChoose.replace("[playerno]", Std.string(_playerChooseNo + 1));
 		_txtChoose.screenCenter(true, false);
 		
+		var _stats:StatKey = new StatKey();
+		
+		_grpPlayerSelect.add(_stats);
+		
 		add(_grpPlayerSelect);
+		
+		//drawStatKey(10, FlxG.height - 30, FlxG.width -10, 20);
+		
+		
 		
 		GameControls.newState(fakeUIs);
 	}
@@ -145,7 +184,14 @@ class PlayState extends FlxState
 			_picked.push(WhichPlayer);
 			_players.push(_choosePlayers[WhichPlayer]);
 			_players[_players.length - 1].role = WhichPlayer;
+			
+			cast(fakeUIs[WhichPlayer], FakeUIElement).active = false;
+			cast(fakeUIs[WhichPlayer], FakeUIElement).visible = false;
+			_backs[WhichPlayer].alpha = .2;
+			_sprs[WhichPlayer].alpha = .6;
+			Reg.PlaySound("sounds/Button.wav", .66);
 			FlxG.camera.flash(0x66ffffff, .33, true);
+			
 			_playerChooseNo++;
 			if (_playerChooseNo > 4)
 			{
@@ -155,6 +201,7 @@ class PlayState extends FlxState
 			else
 			{
 				_txtChoose.text = _strChoose.replace("[playerno]", Std.string(_playerChooseNo + 1));
+				GameControls.moveCursor(POSITIVE);
 			}
 		}
 	}
@@ -163,53 +210,95 @@ class PlayState extends FlxState
 	{
 		_grpPlayerSelect.kill();
 		
-		_stars = new StarBackground(20, 20, FlxG.width - 40, 200);
-		_stars.starXOffset = .6;
-		add(_stars);
+		
 		
 		// add the game interface!
 		
-		_txtWeek = new GameFont(10, 10, _strWeek.replace("[weekno]", Std.string(_weekNo+1)), GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEGOLD, "left", 18,0);
-		add(_txtWeek);
+		var b:FlxSprite = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, [0xff333333, 0xff888888, 0xff666666], 1, 12);
+		add(b);
+		b = FlxGradient.createGradientFlxSprite(FlxG.width - 4, FlxG.height - 4, [0xff333333, 0xff888888, 0xff666666], 1, 192);
+		b.x = 2;
+		b.y = 2;
+		add(b);
 		
-		_txtEventMain = new GameFont(10, FlxG.height * 0.7, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22, Std.int(FlxG.width - 20));
+		
+		_txtEventMain = new GameFont(20, FlxG.height * 0.65, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE, Std.int(FlxG.width - 40));
+		_txtEventMain = new GameFont(20, FlxG.height * 0.65, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE, Std.int(FlxG.width - 40));
 		
 		_txtEvent = new FlxGlitchSprite(_txtEventMain, 100);
 		_txtEvent.initPixels();
-		add(_txtEvent);
 		
-		_btnNext = new GameButton(0, 0, "NEXT", advanceEvent, GameButton.STYLE_GREEN, true, 0, 0, 18);
-		_btnNext.x = FlxG.width - _btnNext.width - 10;
-		_btnNext.y = FlxG.height - _btnNext.height - 10;
+		
+		
+		
+		_btnNext = new GameButton(0, 0, "NEXT", advanceEvent, GameButton.STYLE_GREEN, true, 0, 0, 24);
+		_btnNext.x = FlxG.width - _btnNext.width - 16;
+		_btnNext.y = FlxG.height -  _btnNext.height-26;
 		_btnNext.alpha = 0;
-		add(_btnNext);
 		
-		_txtChoice1Main = new GameFont(140, FlxG.height * 0.7, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22, Std.int(FlxG.width - 150));
+		
+		_txtChoice1Main = new GameFont(160, FlxG.height * 0.65, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE, Std.int(FlxG.width - 180));
 		_txtChoice1 = new FlxGlitchSprite(_txtChoice1Main, 100);
 		_txtChoice1.initPixels();
 		_txtChoice1.alpha = 0;
 		
-		_txtChoice2Main = new GameFont(140, _txtChoice1.y + (_txtChoice1.height*2), "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", 22,Std.int(FlxG.width - 150));
+		_txtChoice2Main = new GameFont(160, _txtChoice1.y + (_txtChoice1.height*2), "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE,Std.int(FlxG.width - 180));
 		_txtChoice2 = new FlxGlitchSprite(_txtChoice2Main, 100);
 		_txtChoice2.initPixels();
 		_txtChoice2.alpha = 0;
 		
 		_grpChoices  = new FlxGroup();
+
+		_txtDesc = new GameFont(0, 0, _strDesc, GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEGOLD, "center", EVENT_TEXT_SIZE, 0);
+		_txtDesc.screenCenter(true, false);
+		_txtDesc.y = _txtChoice1.y - _txtDesc.height - 10;
+		
+		_playerBack = FlxGradient.createGradientFlxSprite(FlxG.width, Std.int(_txtDesc.height + 6), [0xff000000, 0xff000000, 0xff000000], 1, 0);
+		
+		_playerBack.x = 0;
+		_playerBack.y = _txtDesc.y - 4;
+		add(_playerBack);
+		
+		add(_txtDesc);
+		
+		_txtWeek = new GameFont(20, _txtDesc.y, _strWeek.replace("[weekno]", Std.string(_weekNo+1)), GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEGOLD, "left", EVENT_TEXT_SIZE,0);
+		add(_txtWeek);
+		
+		_stars = new StarBackground(12, 12, FlxG.width - 24, Std.int(_playerBack.y - 20) );
+		_stars.starXOffset = .6;
+		
+		b = drawRoundBox(Std.int(_stars.x - 2), Std.int(_stars.y - 2), Std.int(_stars.width + 4), Std.int(_stars.height + 4));
+		add(b);
+		
+		add(_stars);
+		
+		b = drawRoundBox(10,Std.int(_txtEventMain.y - 10),Std.int(FlxG.width - 20), Std.int(FlxG.height - _txtEventMain.y-10));
+		add(b);
+		
+		add(new StatKey());
+		
+		add(_txtEvent);
+		add(_btnNext);
 		add(_grpChoices);
 		
 		add(_txtChoice1);
 		
 		add(_txtChoice2);
 		
-		
-		_txtDesc = new GameFont(0, 0, _strDesc, GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEGOLD, "center", 18, 0);
-		_txtDesc.screenCenter(true, false);
-		_txtDesc.y = _txtChoice1.y - _txtDesc.height - 10;
-		add(_txtDesc);
+		_ship = new Ship(FlxRect.get(_stars.x, _stars.y, _stars.width, _stars.height));
+		add(_ship);
 		
 		startEvent();
 		
 		FlxG.camera.fade(FlxColor.BLACK, .33, true, doneChooseFadeIn);
+	}
+	
+	private function drawRoundBox(X:Int, Y:Int, Width:Int, Height:Int):FlxSprite
+	{
+		var b:FlxSprite = new FlxSprite(X, Y);
+		b.makeGraphic(Width,Height,0x0);
+		b.drawRoundRect(0, 0, b.width, b.height, 16, 16, 0xff000000, { color:0xff888888, thickness:2 } );
+		return b;
 	}
 	
 	private function chooseOne():Void
@@ -255,9 +344,24 @@ class PlayState extends FlxState
 		_eventTxtNo = 0;
 		_txtWeek.text = _strWeek.replace("[weekno]", Std.string(_weekNo + 1));
 		_eventPlayerNo = getPlayerByRole( Reg.events[_weekNo].activePlayer);
-		_txtDesc.text = _strDesc.replace("[playerno]", Std.string(_eventPlayerNo+1)).replace("[role]", Enums.getRole(Reg.events[_weekNo].activePlayer));
+		Reg.PlaySound("sounds/Week Screen.wav", .8);
+		_txtDesc.text = _strDesc.replace("[playerno]", Std.string(_eventPlayerNo + 1)).replace("[role]", Enums.getRole(Reg.events[_weekNo].activePlayer));
+		_txtDesc.screenCenter(true, false);
+		makePlayerBack(Reg.events[_weekNo].activePlayer);
+		
 		
 		setEventText();
+	}
+	
+	private function makePlayerBack(Role:Int):Void
+	{
+		_playerBack.pixels =  FlxGradient.createGradientBitmapData(FlxG.width, Std.int(_txtDesc.height + 2), [FlxColorUtil.darken( Enums.getRoleColor(Role), .6), 0xff000000, FlxColorUtil.darken(Enums.getRoleColor(Role), .6)], 1, 0);
+		var r:Rectangle = new Rectangle();
+		r.setTo(0, 0, FlxG.width, 1);
+		_playerBack.pixels.fillRect(r, FlxColorUtil.darken( Enums.getRoleColor(Role), .2));
+		r.setTo(0, _playerBack.height - 1, FlxG.width, 1);
+		_playerBack.pixels.fillRect(r, FlxColorUtil.darken( Enums.getRoleColor(Role), .4));
+		
 	}
 	
 	private function getPlayerByRole(Role:Int):Int
@@ -278,6 +382,7 @@ class PlayState extends FlxState
 			_txtEventMain.text = Reg.events[_weekNo].opening[_eventTxtNo];
 			_txtEvent.initPixels();
 			_txtEvent.alpha = 0;
+			_ship.problem(_weekNo);
 			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextIn }, txtEventAlpha);
 			GameControls.changeUIs([_btnNext]);
 		}
@@ -305,7 +410,7 @@ class PlayState extends FlxState
 			
 			if (_chart != null)
 				_chart = FlxDestroyUtil.destroy(_chart);
-			_chart = new StatChart(10, FlxG.height - 130, _players[_eventPlayerNo]);
+			_chart = new StatChart(20, FlxG.height - 120 - 30, _players[_eventPlayerNo]);
 			add(_chart);
 			_chart.alpha = 0;
 			
@@ -317,7 +422,10 @@ class PlayState extends FlxState
 		else if (_eventStage == STAGE_SHOWOUTCOME)
 		{
 			if (_eventPass)
+			{
 				_txtEventMain.text = Reg.events[_weekNo].choices[_eventChoice].passTexts[_eventTxtNo];
+				_ship.fixed(_weekNo);
+			}
 			else
 				_txtEventMain.text = Reg.events[_weekNo].choices[_eventChoice].failTexts[_eventTxtNo];
 			_txtEvent.initPixels();
@@ -354,6 +462,7 @@ class PlayState extends FlxState
 	private function doneChoicesIn(T:FlxTween):Void
 	{
 		GameControls.canInteract = true;
+		GameControls.moveCursor(POSITIVE);
 		//_fakeChoice1.active = true;
 		//_fakeChoice2.active = true;
 		
@@ -372,7 +481,7 @@ class PlayState extends FlxState
 			return;
 		GameControls.canInteract = false;
 		_btnNext.active = false;
-		FlxTween.num(1, 0, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextOut }, txtEventAndBtnNextAlpha);
+		FlxTween.num(1, 0, .2, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextOut }, txtEventAndBtnNextAlpha);
 	}
 	
 	private function doneEventTextOut(T:FlxTween):Void
@@ -411,6 +520,12 @@ class PlayState extends FlxState
 			_eventTxtNo = 0;
 			_eventStage = STAGE_OPENING;
 			_weekNo++;
+			#if FLX_DEMO_VERSION
+			if (_weekNo == 3)
+			{
+				_weekNo = 9;
+			}
+			#end
 			if (_weekNo < Reg.events.length)
 			{
 				
@@ -444,13 +559,15 @@ class PlayState extends FlxState
 	
 	private function doneEventTextIn(T:FlxTween):Void
 	{
-		FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventNextIn }, btnNextAlpha);
+		FlxTween.num(0, 1, .2, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventNextIn }, btnNextAlpha);
 	}
 	
 	private function doneEventNextIn(T:FlxTween):Void
 	{
 		GameControls.canInteract = true;
+		
 		_btnNext.active = true;
+		GameControls.moveCursor(POSITIVE);
 	}
 	
 	private function btnNextAlpha(Value:Float):Void
@@ -467,6 +584,7 @@ class PlayState extends FlxState
 	private function doneChooseFadeIn():Void
 	{
 		GameControls.canInteract = true;
+		GameControls.moveCursor(POSITIVE);
 	}
 	
 	private function buildPlayers():Void
@@ -506,6 +624,7 @@ class PlayState extends FlxState
 		
 	}
 	
+	
 	/**
 	 * Function that is called when this state is destroyed - you might want to 
 	 * consider setting all objects this state uses to null to help garbage collection.
@@ -520,9 +639,25 @@ class PlayState extends FlxState
 	 */
 	override public function update():Void
 	{
-		
+		if (_btnNext != null && _btnNext.alive && _btnNext.exists && _btnNext.visible && _btnNext.active && _btnNext.alpha == 1 && GameControls.canInteract)
+		{
+			#if !FLX_NO_KEYBOARD
+			if (FlxG.keys.justReleased.ANY)
+			{
+				_btnNext.forceStateHandler(FlxUITypedButton.CLICK_EVENT);
+			}
+			#end
+			#if !FLX_NO_GAMEPAD
+			if (GameControls.hasGamepad)
+			{
+				if (GameControls.gamepad.anyInput())
+				{
+					_btnNext.forceStateHandler(FlxUITypedButton.CLICK_EVENT);
+				}
+			}
+			#end
+		}
 		GameControls.checkScreenControls();
-		
 		super.update();
 	}	
 }

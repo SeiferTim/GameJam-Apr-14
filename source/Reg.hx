@@ -1,6 +1,7 @@
 package;
 
 import flash.events.Event;
+import flixel.FlxG;
 import flixel.util.FlxSave;
 import haxe.xml.Fast;
 import haxe.xml.Parser;
@@ -49,6 +50,25 @@ class Reg
 	static public var events:Array<GameEvent>;
 	
 	static public var flags:Array<String>;
+	
+	static private var CurMusic:String = "";
+	
+	static public function PlayMusic(Music:String):Void	
+	{
+		//trace(CurMusic + " " + Music);
+		if (CurMusic != Music)
+		{
+
+			CurMusic = Music;
+			FlxG.sound.playMusic(CurMusic);
+		}
+
+	}
+	
+	static public function PlaySound(Sound:String, Vol:Float = 1):Void
+	{
+		FlxG.sound.play(Sound,Vol);
+	}
 	
 	static public function init():Void
 	{

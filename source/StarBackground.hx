@@ -20,7 +20,7 @@ class StarBackground extends FlxSprite
 	private var _delay:Float = .1;
 	
 	
-	public function new(X:Int = 0, Y:Int = 0, Width:Int, Height:Int) 
+	public function new(X:Int = 0, Y:Int = 0, Width:Int, Height:Int, StarCount:Int = 200) 
 	{
 		super(X,Y);
 		_canvas = new BitmapData(Width, Height, false, FlxColor.BLACK);
@@ -28,7 +28,7 @@ class StarBackground extends FlxSprite
 		height = Height;
 		_stars = new Array<Star>();
 		var star:Star;
-		for (i in 0...200)
+		for (i in 0...StarCount)
 		{
 			star = new Star(i,Std.int(FlxRandom.intRanged(0,Width)), Std.int(FlxRandom.intRanged(0, Height)));
 			_stars.push(star);
@@ -39,11 +39,6 @@ class StarBackground extends FlxSprite
 	
 	private function updateStarfield():Void
 	{
-		if (FlxRandom.chanceRoll(5))
-		{
-			_flashRect.setTo(0, FlxRandom.floatRanged(0,height), FlxG.width, 2);
-			_canvas.fillRect(_flashRect, _depthColours[FlxRandom.intRanged(6,9)]);	
-		}
 		
 		for (s in _stars)
 		{

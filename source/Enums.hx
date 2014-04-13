@@ -1,4 +1,5 @@
 package ;
+import flixel.util.FlxColor;
 
 class Enums
 {
@@ -68,6 +69,26 @@ class Enums
 				return 'Finesse';
 			default:
 				return '';
+		}
+	}
+	
+	public static function getRoleColor(Role:Int):Int
+	{
+		switch(Role)
+		{
+			case 0:
+				return FlxColor.MAGENTA;
+			case 1:
+				return FlxColor.GREEN;
+			case 2:
+				return FlxColor.BLUE;
+			case 3:
+				return FlxColor.RED;
+			case 4:
+				return FlxColor.YELLOW;
+			default:
+				return 0x0;
+				
 		}
 	}
 	

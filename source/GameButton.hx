@@ -40,7 +40,7 @@ class GameButton extends FlxUITypedButton<GameFont> implements IUIElement
 		switch(Style)
 		{
 			case STYLE_GREEN:
-				col = GameFont.COLOR_WHITE;
+				col = GameFont.COLOR_BLUE;
 				img = "images/green_button.png";
 			case STYLE_BLUE:
 				col = GameFont.COLOR_GREEN;
@@ -107,6 +107,7 @@ class GameButton extends FlxUITypedButton<GameFont> implements IUIElement
 		var _sound:FlxSound;
 		_sound = FlxG.sound.load("sounds/Button.wav");
 		onUp.sound = _sound;
+		onUp.sound.volume = .6;
 		
 		
 		

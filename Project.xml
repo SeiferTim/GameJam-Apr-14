@@ -2,7 +2,7 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="GameJam-Apr-14" file="GameJam-Apr-14" main="Main" version="0.0.1" company="HaxeFlixel" />
+	<app title="Aethon - Mission to Mars" file="Aethon" main="Main" version="1.0.0" company="Tile Isle" />
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file, or you can set the actual size of your file manually at "Flxpreloader-onUpdate-bytesTotal"!-->
 	<app preloader="flixel.system.FlxPreloader" />
@@ -35,6 +35,15 @@
 	<assets path="assets/images" rename="images" include="*.png" />
 	<assets path="assets/fonts" rename="fonts" include="*.ttf" />
 	<assets path="assets/sounds" rename="sounds" include="*.wav" />
+	
+	<assets path="assets/music" if="flash" >
+		<music path="Main Theme.mp3" id="theme" />
+		<music path="ending.mp3" id="ending" />
+	</assets>
+	<assets path="assets/music" unless="flash" >
+		<music path="Main Theme.ogg" id="theme" />
+		<music path="ending.ogg" id="ending" />
+	</assets>
 	
 	<!--------------------------------LIBRARIES------------------------------------->
 	
@@ -82,5 +91,17 @@
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 	
+	<!--<haxedef name="FLX_DEMO_VERSION" />-->
+	
+	<icon path="assets/icons/16.png" height="16" width="16" />
+	<icon path="assets/icons/32.png" height="32" width="32" />
+	<icon path="assets/icons/36.png" height="36" width="36" />
+	<icon path="assets/icons/48.png" height="48" width="48" />
+	<icon path="assets/icons/64.png" height="64" width="64" />
+	<icon path="assets/icons/72.png" height="72" width="72" />
+	<icon path="assets/icons/96.png" height="96" width="96" />
+	<icon path="assets/icons/144.png" height="144" width="144" />
+	<icon path="assets/icons/192.png" height="192" width="192" />
+	<icon path="assets/icons/256.png" height="256" width="256" />
 	
 </project>
