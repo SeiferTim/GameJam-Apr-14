@@ -265,7 +265,7 @@ class PlayState extends FlxState
 		add(_txtWeek);
 		
 		_stars = new StarBackground(12, 12, FlxG.width - 24, Std.int(_playerBack.y - 20) );
-		_stars.starXOffset = .6;
+		_stars.starXOffset = -.6;
 		
 		b = drawRoundBox(Std.int(_stars.x - 2), Std.int(_stars.y - 2), Std.int(_stars.width + 4), Std.int(_stars.height + 4));
 		add(b);
