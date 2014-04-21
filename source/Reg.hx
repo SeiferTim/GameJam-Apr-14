@@ -53,14 +53,14 @@ class Reg
 	
 	static private var CurMusic:String = "";
 	
-	static public function PlayMusic(Music:String):Void	
+	static public function PlayMusic(Music:String, Vol:Float = 1 ):Void	
 	{
 		//trace(CurMusic + " " + Music);
 		if (CurMusic != Music)
 		{
 
 			CurMusic = Music;
-			FlxG.sound.playMusic(CurMusic);
+			FlxG.sound.playMusic(CurMusic, Vol);
 		}
 
 	}
@@ -75,6 +75,7 @@ class Reg
 		if (initialized)
 			return;
 		initialized = true;
+		FlxG.autoPause = false;
 		flags = new Array<String>();
 		GameControls.init();
 		loadEvents("data/events.xml");

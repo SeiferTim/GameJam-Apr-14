@@ -107,7 +107,7 @@ class GameButton extends FlxUITypedButton<GameFont> implements IUIElement
 		var _sound:FlxSound;
 		_sound = FlxG.sound.load("sounds/Button.wav");
 		onUp.sound = _sound;
-		onUp.sound.volume = .6;
+		//onUp.sound.volume = .6;
 		
 		
 		

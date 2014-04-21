@@ -28,7 +28,7 @@ class MadeInSTLState extends FlxState
 		FlxG.mouse.visible = false;
 		#end
 		
-		FlxG.autoPause = false;
+		
 		
 		bgColor = FlxColor.BLACK;
 		

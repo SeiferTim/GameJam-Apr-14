@@ -1,6 +1,7 @@
 package ;
 
 import flash.display.BitmapData;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
@@ -22,20 +23,21 @@ class FakeUIElement extends FlxSprite implements IUIElement
 	public static inline var DOWN_EVENT:String = "down_button";
 	public static inline var OUT_EVENT:String = "out_button";
 	
-	public function new(X:Float = 0, Y:Float = 0, Width:Int = 1, Height:Int = 1, OnX:Void->Void=null, OnInput:Int->Void=null, KeepToggled:Bool = true)
+	public var overSound:String = "";
+	public var upSound:String = "";
+	
+	public function new(X:Float = 0, Y:Float = 0, Width:Int = 1, Height:Int = 1, OnX:Void->Void=null, OnInput:Int->Void=null, KeepToggled:Bool = true, OverSound:String = "", UpSound:String = "")
 	{
 		super(X, Y);
 		onX = OnX;
 		onInput = OnInput;
+		overSound = OverSound;
+		upSound = UpSound;
 		_keepToggled = KeepToggled;
-//		pixels = new BitmapData(Std.int(Width), Std.int(Height), true, 0x0);
 		width = Width;
 		height = Height;
 		makeGraphic(Std.int(width), Std.int(height), 0x0);
 		FlxSpriteUtil.drawRoundRect(this, 0, 0, width, height, 10, 10, FlxColor.WHITE);
-		//resize();
-//		makeGraphic(Width, Height, 0x0);
-//		FlxSpriteUtil.drawRoundRect(this, 0, 0, Width, Height, 10, 10, FlxColor.WHITE);
 		alpha = .6;
 		visible = false;
 		selected = false;
@@ -53,6 +55,8 @@ class FakeUIElement extends FlxSprite implements IUIElement
 	{
 		if (!toggled)
 		{
+			if (upSound != "")
+				FlxG.sound.play(upSound);
 			if (onX != null)
 				onX();
 		}

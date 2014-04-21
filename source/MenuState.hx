@@ -53,7 +53,7 @@ class MenuState extends FlxState
 		
 		FlxG.camera.fade(FlxColor.BLACK, .33, true, doneFadeIn);
 		
-		Reg.PlayMusic("theme");
+		Reg.PlayMusic("theme", .2);
 		
 		super.create();
 	}

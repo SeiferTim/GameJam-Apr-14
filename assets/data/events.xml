@@ -13,7 +13,7 @@
 		<line>The crew is settled into chairs at their respective workstations on the command bridge of the Aethon.</line>
 		<line>The Captain sits in his command chair at the center of the bridge and gazes at the viewer.</line>
 		<line>“This has got to be one of the strangest missions I've ever had.” the Captain thinks to himself as he stares at the tiny red dot surrounded by emptiness on the screen in front of him.</line>
-		<line>“Captain!”  says the Scientist.  “Our communications systems have gone offline!”</line>
+		<line>*“Captain!”  says the Scientist.  “Our communications systems have gone offline!”</line>
 		<line>“Well that’s not very good." he replied "Lets see what we can do to fix that.”</line>
 	</opening>
 	<choice_two>
@@ -55,7 +55,7 @@
 	<opening>
 		<line>After the minor issue with communications, things returned to a much more calm state on the bridge.  The Captain begins to think again.</line>
 		<line>"I know that the colonization of Mars is pretty important, but do they really need to sacrifice all these horses?"</line>
-		<line>He ponders that thought for a moment longer but the ideas in his head are interrupted by the wailing of the alarm.</line>
+		<line>*He ponders that thought for a moment longer but the ideas in his head are interrupted by the wailing of the alarm.</line>
 		<line>"What is it this time!"  he barks to the crew.</line>
 		<line>"The computer is reporting a coolant leak in the starboard engine room, sir!" replies the Engineer."</line>
 		<line>"Well don't just stand there!  Get it fixed!"</line>
@@ -264,7 +264,7 @@
 		<line>Back on the bridge, the Captain sat in the command chair and rested his chin in the palm of his hand.</line>
 		<line>"I'm really beginning to think that things are getting out of hand."</line>
 		<line>"How much further can this ship...and this crew make it?"</line>
-		<line>At that moment the alarms begin blaring their obnoxious refrain.</line>
+		<line>*At that moment the alarms begin blaring their obnoxious refrain.</line>
 		<line>"Again?  When does it end?!"</line>
 		<line>"It's the engine, Captain.  It's gone offline.  I'll take care of it."</line>
 	</opening>
@@ -419,7 +419,8 @@
 			<line>The ship begins moving towards the edge of the sensor range.</line>
 			<line>Just as the screen refreshes, it becomes clear that the field goes on for quite some distance.</line>
 			<line>"Well doggone it, I was just sure those asteroids wouldn't be out there.  I guess I'll just cross my fingers and hope for the best!"</line>
-			<line>The Pilot turned the ship into the Asteroids.  After a handful of traumatic impacts, the ship emerges on the other side but scared from its passage.</line>
+			<line>The Pilot turned the ship into the Asteroids.</line>
+			<line>*After a handful of traumatic impacts, the ship emerges on the other side but scared from its passage.</line>
 			<attrib>Luck</attrib>
 			<score>Your ship was damaged by asteroids!</score>
 		</fail>
@@ -443,7 +444,7 @@
 			<line>The Captain mutters a short prayer as the Pilot waits poised over the throttle lever.</line>
 			<line>"Charge!!!!!!!" the Pilot yells as he rams the throttle lever all the way forward.</line>
 			<line>The Captain struggles to contain his own screams as he sees the oncoming asteroids on the viewer...and then feels their impact on the ships hull.</line>
-			<line>After a handful of traumatic impacts, the ship emerges on the other side but scared from its passage.</line>
+			<line>*After a handful of traumatic impacts, the ship emerges on the other side but scared from its passage.</line>
 			<attrib>Finesse</attrib>
 			<score>Your ship was damaged by asteroids!</score>
 		</fail>

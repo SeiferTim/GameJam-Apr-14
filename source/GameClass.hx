@@ -35,7 +35,7 @@ class GameClass extends FlxGame
 		}
 
 		#if debug
-		//initialState = EndState;
+		initialState = MenuState;
 		#end
 		
 		super(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);

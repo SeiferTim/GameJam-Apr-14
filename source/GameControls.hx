@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.LogitechButtonID;
+import flixel.system.FlxSound;
 import flixel.util.FlxArrayUtil;
 import flixel.util.FlxPoint;
 
@@ -27,6 +28,7 @@ class GameControls
 	public static var commandList:Array<String>;
 	
 	private static var _selButton:Int = -1;
+	public static var _lastSelected:Int = -1;
 	
 	private static var _uis:Array<IUIElement>;
 	
@@ -34,6 +36,9 @@ class GameControls
 	
 	private static var _pressDelay:Float = .5;
 	public static var  canInteract:Bool = false;
+	
+	private static inline var _sndRoll:String = "sounds/rollover.wav";
+	
 	
 	#if !FLX_NO_KEYBOAD
 	public static var keys:Array<Array<String>>;
@@ -56,6 +61,8 @@ class GameControls
 	
 	public static function init() 
 	{
+		
+		
 		buildCommandList();
 		#if !FLX_NO_KEYBOAD
 		keys = [];
@@ -106,6 +113,7 @@ class GameControls
 			buttons = Reg.save.data.buttons;
 		#end
 		Reg.save.close;
+		_lastSelected = -1;
 		
 	}
 	
@@ -233,6 +241,7 @@ class GameControls
 			_selButton = 0;
 		else
 			_selButton = -1;
+		_lastSelected = -1;
 		_uis = Buttons;
 		canInteract = false;
 	}
@@ -250,7 +259,7 @@ class GameControls
 				}
 			}
 		}
-		
+		_lastSelected = -1;
 		_uis = UIs;
 		_selButton = UIs.length > 0 ? -1 : 0;
 	}
@@ -404,14 +413,20 @@ class GameControls
 				}
 			}
 		}
-		if (_uis.length > 0)
+		
+		if (_selButton != _lastSelected)
 		{
-			for (b in _uis)
-				b.selected = false;
-			if (_selButton != -1)
+			if (_uis.length > 0)
 			{
-				_uis[_selButton].selected = true;
+				for (b in _uis)
+					b.selected = false;
+				if (_selButton != -1)
+				{
+					_uis[_selButton].selected = true;
+					FlxG.sound.play(_sndRoll);
+				}
 			}
+			_lastSelected = _selButton;
 		}
 	}
 	

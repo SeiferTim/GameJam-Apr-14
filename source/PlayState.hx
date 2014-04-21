@@ -94,6 +94,8 @@ class PlayState extends FlxState
 	private var fakeUIs:Array<IUIElement> = [];
 	private var _sprs:Array<FlxSprite> = [];
 	
+	private var ChoiceSound:String = "sounds/switch.wav";
+	
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -132,7 +134,7 @@ class PlayState extends FlxState
 		
 		for (i in 0...5)
 		{
-			fakeUI = new FakeUIElement(10 + (i * (10 + ((FlxG.width - 60) / 5))), 40, Std.int((FlxG.width - 60) / 5), Std.int(FlxG.height - 60), pickPlayer.bind(i),null, false);
+			fakeUI = new FakeUIElement(10 + (i * (10 + ((FlxG.width - 60) / 5))), 40, Std.int((FlxG.width - 60) / 5), Std.int(FlxG.height - 60), pickPlayer.bind(i),null, false, "", ChoiceSound);
 			fakeUIs.push(fakeUI);
 			_grpPlayerSelect.add(fakeUI);
 			
@@ -189,7 +191,7 @@ class PlayState extends FlxState
 			cast(fakeUIs[WhichPlayer], FakeUIElement).visible = false;
 			_backs[WhichPlayer].alpha = .2;
 			_sprs[WhichPlayer].alpha = .6;
-			Reg.PlaySound("sounds/Button.wav", .66);
+			//Reg.PlaySound("sounds/Button.wav", .33);
 			FlxG.camera.flash(0x66ffffff, .33, true);
 			
 			_playerChooseNo++;
@@ -290,7 +292,7 @@ class PlayState extends FlxState
 		
 		startEvent();
 		
-		FlxG.camera.fade(FlxColor.BLACK, .33, true, doneChooseFadeIn);
+		FlxG.camera.fade(FlxColor.BLACK, .33, true, doneChooseFadeIn, true);
 	}
 	
 	private function drawRoundBox(X:Int, Y:Int, Width:Int, Height:Int):FlxSprite
@@ -379,6 +381,11 @@ class PlayState extends FlxState
 		
 		if (_eventStage== STAGE_OPENING)
 		{
+			if (Reg.events[_weekNo].opening[_eventTxtNo].charAt(0) == "*")
+			{
+				Reg.events[_weekNo].opening[_eventTxtNo] = Reg.events[_weekNo].opening[_eventTxtNo].substring(1, Reg.events[_weekNo].opening[_eventTxtNo].length - 1);
+				FlxG.camera.shake(0.025, 0.25);
+			}
 			_txtEventMain.text = Reg.events[_weekNo].opening[_eventTxtNo];
 			_txtEvent.initPixels();
 			_txtEvent.alpha = 0;
@@ -402,10 +409,10 @@ class PlayState extends FlxState
 			if (_fakeChoice2 != null)
 				_fakeChoice2 = FlxDestroyUtil.destroy(_fakeChoice2);
 			
-			_fakeChoice1 = new FakeUIElement(_txtChoice1Main.x - 4, _txtChoice1Main.y - 4, Std.int(_txtChoice1Main.width + 8), Std.int(_txtChoice1Main.height + 8), chooseOne, null, false);
+			_fakeChoice1 = new FakeUIElement(_txtChoice1Main.x - 4, _txtChoice1Main.y - 4, Std.int(_txtChoice1Main.width + 8), Std.int(_txtChoice1Main.height + 8), chooseOne, null, false, "", ChoiceSound);
 			_grpChoices.add(_fakeChoice1);
 			
-			_fakeChoice2 = new FakeUIElement(_txtChoice2Main.x - 4, _txtChoice2Main.y - 4, Std.int(_txtChoice2Main.width + 8), Std.int(_txtChoice2Main.height + 8), chooseTwo, null, false);
+			_fakeChoice2 = new FakeUIElement(_txtChoice2Main.x - 4, _txtChoice2Main.y - 4, Std.int(_txtChoice2Main.width + 8), Std.int(_txtChoice2Main.height + 8), chooseTwo, null, false, "", ChoiceSound);
 			_grpChoices.add(_fakeChoice2);
 			
 			if (_chart != null)
