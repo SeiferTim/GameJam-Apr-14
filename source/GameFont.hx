@@ -2,13 +2,11 @@ package ;
 
 import flash.display.BitmapData;
 import flash.filters.DropShadowFilter;
-import flash.filters.GlowFilter;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
-import flixel.util.FlxBitmapUtil;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxGradient;
 import flixel.util.FlxSpriteUtil;
@@ -142,7 +140,7 @@ class GameFont extends FlxSprite
 		var tmpText:FlxText = new FlxText(0, 0, _fieldWidth, _text);
 		tmpText.setFormat(font, size, 0x000000, align);
 		
-		tmpText.resetFrameBitmapDatas();
+		tmpText.resetFrame();
 		tmpText.drawFrame();
 		
 		var r:Rectangle = tmpText.pixels.getColorBoundsRect(0xff000000, 0x00000000, false);
@@ -158,8 +156,8 @@ class GameFont extends FlxSprite
 			var b2:BitmapData;
 			var spr:FlxSprite;
 			var dropShad:DropShadowFilter;
-			var outline:DropShadowFilter;
-			var inglow:DropShadowFilter;
+			//var outline:DropShadowFilter;
+			//var inglow:DropShadowFilter;
 			var spr2:FlxSprite;
 			var b3:BitmapData;
 			var b4:BitmapData;
@@ -273,8 +271,8 @@ class GameFont extends FlxSprite
 				spr2 = FlxDestroyUtil.destroy(spr2);
 				
 			}
-			FlxG.bitmap.remove(FlxG.bitmap.getCacheKeyFor(b1));
-			FlxG.bitmap.remove(FlxG.bitmap.getCacheKeyFor(b2));
+			FlxG.bitmap.remove(FlxG.bitmap.get(FlxG.bitmap.findKeyForBitmap(b1)));
+			FlxG.bitmap.remove(FlxG.bitmap.get(FlxG.bitmap.findKeyForBitmap(b2)));
 			b1 = FlxDestroyUtil.dispose(b1);
 			b2 = FlxDestroyUtil.dispose(b2);
 			
@@ -283,7 +281,7 @@ class GameFont extends FlxSprite
 		
 		
 		dirty = true;
-		updateFrameData();
+		updateFramePixels();
 		
 		
 		

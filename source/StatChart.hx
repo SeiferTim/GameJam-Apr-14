@@ -1,11 +1,7 @@
 package ;
 
-import flash.display.Sprite;
-import flash.geom.Matrix;
 import flixel.FlxSprite;
-import flixel.util.FlxColor;
-import flixel.util.FlxPoint;
-import flixel.util.FlxAngle;
+import flixel.math.FlxPoint;
 using flixel.util.FlxSpriteUtil;
 
 class StatChart extends FlxSprite
@@ -21,9 +17,9 @@ class StatChart extends FlxSprite
 		
 		for (i in 0...5)
 		{
-			_points.push(FlxPoint.get());
+			_points.push(FlxPoint.get(60,0));
 			
-			_points[i] = FlxAngle.rotatePoint(60, 0, 0, 0, ((360 / 5)*i)-90);
+			_points[i].rotate(FlxPoint.weak(), ((360 / 5)*i));
 			_points[i].x += 60;
 			_points[i].y += 60;
 			
@@ -35,9 +31,9 @@ class StatChart extends FlxSprite
 			_points = new Array<FlxPoint>();
 			for (i in 0...5)
 			{
-				_points.push(FlxPoint.get());
+				_points.push(FlxPoint.get(j*5, 0));
 				
-				_points[i] = FlxAngle.rotatePoint(j*5, 0, 0, 0, ((360 / 5)*i)-90);
+				_points[i].rotate(FlxPoint.weak(), ((360 / 5) * i) - 90);
 				_points[i].x += 60;
 				_points[i].y += 60;
 				
@@ -51,9 +47,9 @@ class StatChart extends FlxSprite
 		
 		for (i in 0...5)
 		{
-			_points.push(FlxPoint.get());
+			_points.push(FlxPoint.get(P.stats[i]*6, 0));
 			
-			_points[i] = FlxAngle.rotatePoint(P.stats[i]*6, 0, 0, 0, ((360 / 5)*i)-90);
+			_points[i].rotate(FlxPoint.weak(), ((360 / 5)*i)-90);
 			_points[i].x += 60;
 			_points[i].y += 60;
 			
@@ -64,9 +60,9 @@ class StatChart extends FlxSprite
 		_points = new Array<FlxPoint>();
 		for (i in 0...6)
 		{
-			_points.push(FlxPoint.get());
+			_points.push(FlxPoint.get(56, 0));
 			
-			_points[i] = FlxAngle.rotatePoint(56, 0, 0, 0, ((360 / 5)*i)-90);
+			_points[i].rotate(FlxPoint.weak(), ((360 / 5)*i)-90);
 			_points[i].x += 60;
 			_points[i].y += 60;
 			

@@ -1,13 +1,14 @@
 package ;
 
-import flixel.addons.effects.FlxWaveSprite;
+import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 
 class MadeInSTLState extends FlxState
@@ -17,9 +18,11 @@ class MadeInSTLState extends FlxState
 	//private var _txtText:GameFont;
 	//private var _txtWave:FlxWaveSprite;
 	private var _txtWave:FlxSprite;
-	private var _sprArchWave:FlxWaveSprite;
+	private var _sprArchWave:FlxWaveEffect;
 	private var _startYA:Float;
 	private var _startYB:Float;
+	private var timer:FlxTimer;
+	private var effSprite:FlxEffectSprite;
 	
 	override public function create():Void 
 	{
@@ -33,10 +36,12 @@ class MadeInSTLState extends FlxState
 		bgColor = FlxColor.BLACK;
 		
 		_sprArch = new FlxSprite(0, 0, "images/arch.png");
-		FlxSpriteUtil.screenCenter(_sprArch);
-		_sprArchWave = new FlxWaveSprite(_sprArch, WaveMode.ALL, 500);
-		_sprArchWave.alpha = 0;
-		add(_sprArchWave);
+		_sprArch.screenCenter(FlxAxes.XY);
+		_sprArchWave = new FlxWaveEffect(FlxWaveMode.ALL, 10, 0.5, 3, 5, FlxWaveDirection.HORIZONTAL); //new FlxWaveSprite(_sprArch, WaveMode.ALL, 500);
+		effSprite = new FlxEffectSprite(_sprArch, [_sprArchWave]);
+		effSprite.alpha = 0;
+		effSprite.setPosition(_sprArch.x, _sprArch.y);
+		add(effSprite);
 		
 		//_txtText = new GameFont(0, 0, "Made in Saint Louis", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLERED, "center",100);
 		
@@ -44,19 +49,21 @@ class MadeInSTLState extends FlxState
 		//_txtWave = new FlxWaveSprite(_txtText, WaveMode.ALL, 500,10);
 		
 		_txtWave = new FlxSprite(0, 0, "images/madeinstl.png");
-		FlxSpriteUtil.screenCenter(_txtWave, true, true);
+		_txtWave.screenCenter(FlxAxes.XY);
 		_txtWave.y = _sprArch.y - (_txtWave.height *.25) + _sprArch.height - _txtWave.height;
 		_txtWave.alpha = 0;
 		add(_txtWave);
 		
-		_startYA = _sprArchWave.y;
-		_sprArchWave.y += 40;
+		_startYA = effSprite.y;
+		_sprArch.y += 40;
 		_startYB = _txtWave.y;
 		_txtWave.y += 40;
 		
 		//add(_txtText);
 		
 		//FlxTimer.start(1, doFirstFlash);
+		
+		timer = new FlxTimer();
 		
 		fadeIn();
 		
@@ -68,8 +75,10 @@ class MadeInSTLState extends FlxState
 	private function fadeIn():Void
 	{
 		
-		FlxTween.tween(_sprArchWave, { alpha:1, strength:0, y:_startYA }, 1, { type:FlxTween.ONESHOT, ease:FlxEase.sineInOut } );
-		FlxTimer.start(.66, doTextIn);
+		FlxTween.tween(effSprite, { alpha:1,  y:_startYA }, 1, { type:FlxTween.ONESHOT, ease:FlxEase.sineInOut } );
+		FlxTween.tween(_sprArchWave, {strength:0}, 1, { type:FlxTween.ONESHOT, ease:FlxEase.sineInOut } );
+		
+		timer.start(.66, doTextIn);
 	}
 	
 	private function doTextIn(T:FlxTimer):Void
@@ -83,7 +92,7 @@ class MadeInSTLState extends FlxState
 	
 	private function doneMadeInSound():Void
 	{
-		FlxTimer.start(1, goFadeOut);
+		timer.start(1, goFadeOut);
 	}
 	
 	private function goFadeOut(T:FlxTimer):Void

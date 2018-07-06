@@ -12,7 +12,7 @@ class HorseDance extends FlxSprite
 	public function new(X:Float=0, Y:Float=0) 
 	{
 		super(X, Y);
-		loadGraphic("images/horse-dance.png", true, true, 42, 42);
+		loadGraphic("images/horse-dance.png",  true,  42, 42);
 		animation.add("dance", [0, 1, 2, 1], 2);
 		animation.play("dance");
 		
@@ -24,13 +24,13 @@ class HorseDance extends FlxSprite
 		super.revive();
 	}
 	
-	override public function update():Void 
+	override public function update(elapsed:Float):Void 
 	{
 		if (!alive || !exists)
 			return;
 		if (angularVelocity != 0)
 		{
-			_bornTimer -= FlxG.elapsed;
+			_bornTimer -= elapsed;
 			if(_bornTimer < 0)
 				if (!isOnScreen())
 					kill();
@@ -38,7 +38,7 @@ class HorseDance extends FlxSprite
 		else if ((facing == FlxObject.LEFT && x + width < 0) || (facing == FlxObject.RIGHT && x > FlxG.width))
 			kill();
 		
-		super.update();
+		super.update(elapsed);
 	}
 	
 }

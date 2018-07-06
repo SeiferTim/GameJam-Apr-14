@@ -5,13 +5,11 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
-import flixel.group.FlxTypedGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import flixel.util.FlxRandom;
 import flixel.util.FlxTimer;
-using flixel.util.FlxSpriteUtil;
 using StringTools;
 
 class EndState extends FlxState
@@ -24,6 +22,8 @@ class EndState extends FlxState
 	private var _grpFloat:FlxTypedGroup<HorseDance>;
 	private var _grpFloat2:FlxTypedGroup<HorseDance>;
 	private var _mars:FlxSprite;
+	private var timer:FlxTimer;
+	private var horseTimer:FlxTimer;
 	
 	
 	private var _strMission:String = "MISSION COMPLETE\n\n[flags]\nGreat Job...?";
@@ -49,7 +49,7 @@ class EndState extends FlxState
 		
 		
 		_mars = new FlxSprite(0, FlxG.height, "images/mars.png");
-		_mars.screenCenter(true, false);
+		_mars.screenCenter(FlxAxes.X);
 		add(_mars);
 		add(_grpFloat2);
 		add(_grpBack);
@@ -62,7 +62,7 @@ class EndState extends FlxState
 		_txtEnd.alpha = 0;
 		add(_txtEnd);
 		_txtEnd.text = _strMission.replace("[flags]", Reg.flags.join("\n"));
-		_txtEnd.screenCenter(true, true);
+		_txtEnd.screenCenter(FlxAxes.XY);
 		
 		_messages.push("Credits");
 		_messages.push("Team Lead / Programming\n\nTim I Hely");
@@ -74,7 +74,8 @@ class EndState extends FlxState
 		_messages.push("End Music\n\nKevin MacLeod\n(ie: Found on Internet)");
 		_messages.push("Thanks for Playing!");
 		
-		
+		timer = new FlxTimer();
+		horseTimer = new FlxTimer();
 		
 		FlxG.camera.fade(FlxColor.BLACK, 1, true, doneFadeIn);
 		
@@ -144,21 +145,21 @@ class EndState extends FlxState
 			h = _grpFloat.recycle();
 			if (h == null)
 				h = new HorseDance();
-			var side:Int = FlxRandom.intRanged(0, 4);
-			if (FlxRandom.chanceRoll())
+			//var side:Int = FlxG.random.int(0, 4);
+			if (FlxG.random.bool())
 			{
-				h.x = FlxRandom.chanceRoll() ? -41 : FlxG.width-1;
-				h.y = FlxRandom.intRanged( -41, FlxG.height-1);
+				h.x = FlxG.random.bool() ? -41 : FlxG.width-1;
+				h.y = FlxG.random.int( -41, FlxG.height-1);
 			}
 			else
 			{
-				h.x = FlxRandom.intRanged( -41, FlxG.width-1);
-				h.y = FlxRandom.chanceRoll() ? -41 : FlxG.height-1;		
+				h.x = FlxG.random.int( -41, FlxG.width-1);
+				h.y = FlxG.random.bool() ? -41 : FlxG.height-1;		
 			}
 			
-			h.angularVelocity = FlxRandom.intRanged(10, 100) * FlxRandom.sign();
-			h.velocity.x = FlxRandom.intRanged(10, 100) * FlxRandom.sign();
-			h.velocity.y = FlxRandom.intRanged(10, 100) * FlxRandom.sign();
+			h.angularVelocity = FlxG.random.int(10, 100) * FlxG.random.sign();
+			h.velocity.x = FlxG.random.int(10, 100) * FlxG.random.sign();
+			h.velocity.y = FlxG.random.int(10, 100) * FlxG.random.sign();
 			_grpFloat.add(h);
 		}
 		for (i in 0...3)
@@ -166,21 +167,21 @@ class EndState extends FlxState
 			h = _grpFloat2.recycle();
 			if (h == null)
 				h = new HorseDance();
-			var side:Int = FlxRandom.intRanged(0, 4);
-			if (FlxRandom.chanceRoll())
+			//var side:Int = FlxG.random.int(0, 4);
+			if (FlxG.random.bool())
 			{
-				h.x = FlxRandom.chanceRoll() ? -41 : FlxG.width-1;
-				h.y = FlxRandom.intRanged( -41, FlxG.height-1);
+				h.x = FlxG.random.bool() ? -41 : FlxG.width-1;
+				h.y = FlxG.random.int( -41, FlxG.height-1);
 			}
 			else
 			{
-				h.x = FlxRandom.intRanged( -41, FlxG.width-1);
-				h.y = FlxRandom.chanceRoll() ? -41 : FlxG.height-1;		
+				h.x = FlxG.random.int( -41, FlxG.width-1);
+				h.y = FlxG.random.bool() ? -41 : FlxG.height-1;		
 			}
 			
-			h.angularVelocity = FlxRandom.intRanged(10, 100) * FlxRandom.sign();
-			h.velocity.x = FlxRandom.intRanged(10, 100) * FlxRandom.sign();
-			h.velocity.y = FlxRandom.intRanged(10, 100) * FlxRandom.sign();
+			h.angularVelocity = FlxG.random.int(10, 100) * FlxG.random.sign();
+			h.velocity.x = FlxG.random.int(10, 100) * FlxG.random.sign();
+			h.velocity.y = FlxG.random.int(10, 100) * FlxG.random.sign();
 			_grpFloat2.add(h);
 		}
 	}
@@ -189,8 +190,8 @@ class EndState extends FlxState
 	{
 		_loaded = true;
 		GameControls.canInteract = true;
-		FlxTween.num(0, 380, 5, { type:FlxTween.ONESHOT, ease:FlxEase.sineOut, complete:doneMarsUp }, marsUp);
-		FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.sineInOut, complete:doneFirstMessage }, txtAlpha);
+		FlxTween.num(0, 380, 5, { type:FlxTween.ONESHOT, ease:FlxEase.sineOut, onComplete:doneMarsUp }, marsUp);
+		FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.sineInOut, onComplete:doneFirstMessage }, txtAlpha);
 	}
 	
 	private function txtAlpha(Value:Float):Void
@@ -200,12 +201,13 @@ class EndState extends FlxState
 	
 	private function doneFirstMessage(T:FlxTween):Void
 	{
-		FlxTimer.start(5, doneWaiting, 1);
+		
+		timer.start(5, doneWaiting, 1);
 	}
 	
 	private function doneWaiting(T:FlxTimer):Void
 	{
-		FlxTween.num(1, 0, .33, { type:FlxTween.ONESHOT, ease:FlxEase.sineInOut, complete:doneFirstMessageOut }, txtAlpha);
+		FlxTween.num(1, 0, .33, { type:FlxTween.ONESHOT, ease:FlxEase.sineInOut, onComplete:doneFirstMessageOut }, txtAlpha);
 	}
 	
 	private function doneFirstMessageOut(T:FlxTween):Void
@@ -218,8 +220,8 @@ class EndState extends FlxState
 		_txtEnd.x = FlxG.width;
 		_txtEnd.alpha = 1;
 		_txtEnd.text = _messages[_curMessage];
-		_txtEnd.screenCenter(false, true);
-		FlxTween.num(_txtEnd.x, (FlxG.width / 2) - (_txtEnd.width / 2), .33, { type:FlxTween.ONESHOT, ease:FlxEase.bounceOut, complete:doneShowMessage }, txtX);
+		_txtEnd.screenCenter(FlxAxes.Y);
+		FlxTween.num(_txtEnd.x, (FlxG.width / 2) - (_txtEnd.width / 2), .33, { type:FlxTween.ONESHOT, ease:FlxEase.bounceOut, onComplete:doneShowMessage }, txtX);
 	}
 	
 	private function txtX(Value:Float):Void
@@ -229,12 +231,12 @@ class EndState extends FlxState
 	
 	private function doneShowMessage(T:FlxTween):Void
 	{
-		FlxTimer.start(2, messageWait);
+		timer.start(2, messageWait);
 	}
 	
 	private function messageWait(T:FlxTimer):Void
 	{
-		FlxTween.num(_txtEnd.x, -_txtEnd.width, .33, { type:FlxTween.ONESHOT, ease:FlxEase.backIn, complete:doneShowMessageTwo }, txtX);
+		FlxTween.num(_txtEnd.x, -_txtEnd.width, .33, { type:FlxTween.ONESHOT, ease:FlxEase.backIn, onComplete:doneShowMessageTwo }, txtX);
 	}
 	
 	private function doneShowMessageTwo(T:FlxTween):Void
@@ -249,7 +251,7 @@ class EndState extends FlxState
 			_txtEnd.kill();
 			_txtEnd = new GameFont(0, 0, "AETHON\n\nMission to Mars", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEYELLOW, "center", 48);
 			_txtEnd.alpha = 0;
-			_txtEnd.screenCenter(true, true);
+			_txtEnd.screenCenter(FlxAxes.XY);
 			add(_txtEnd);
 			FlxTween.num(0, 1, .2, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut }, txtAlpha);
 		}
@@ -262,12 +264,12 @@ class EndState extends FlxState
 	
 	private function doneMarsUp(T:FlxTween):Void
 	{
-		FlxTween.num(1, 0, .66, { type:FlxTween.ONESHOT, complete:musicOut }, musicVol);
+		FlxTween.num(1, 0, .66, { type:FlxTween.ONESHOT, onComplete:musicOut }, musicVol);
 		_grpBack.add(new ColorThing(8, FlxObject.LEFT));
 		_grpBack.add(new ColorThing(55, FlxObject.RIGHT));
 		_grpBack.add(new ColorThing(FlxG.height - 57 - 42 - 2, FlxObject.LEFT));
 		_grpBack.add(new ColorThing(FlxG.height - 54, FlxObject.RIGHT));
-		FlxTimer.start(1, addHorses,0);
+		horseTimer.start(1, addHorses,0);
 	}
 	
 	private function musicOut(T:FlxTween):Void

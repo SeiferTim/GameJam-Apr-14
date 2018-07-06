@@ -1,6 +1,5 @@
 package;
 
-import flash.events.Event;
 import flixel.FlxG;
 import flixel.util.FlxSave;
 import haxe.xml.Fast;
@@ -53,6 +52,18 @@ class Reg
 	
 	static private var CurMusic:String = "";
 	
+	#if desktop
+	static public function exit():Void
+	{
+		Sys.exit(0);
+	}
+	
+	static public function fullscreen():Void
+	{
+		FlxG.fullscreen = !FlxG.fullscreen;
+	}
+	#end
+	
 	static public function PlayMusic(Music:String, Vol:Float = 1 ):Void	
 	{
 		//trace(CurMusic + " " + Music);
@@ -85,7 +96,7 @@ class Reg
 	{
 		
 		var xml:Xml;
-		var node:Fast;
+		//var node:Fast;
 		var source:Fast;
 		var str:String = "";
 		
@@ -104,7 +115,7 @@ class Reg
 		var week:Int;
 		var activePlayer:Int;
 		var openings:Array<String>;
-		var subNode:Fast;
+		//var subNode:Fast;
 		var choice1:Choice;
 		var choice1Lines:Array<String>;
 		var choice1Attrib:Int;

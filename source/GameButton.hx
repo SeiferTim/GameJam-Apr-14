@@ -10,7 +10,6 @@ import flixel.system.FlxSound;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
-import flixel.util.FlxSpriteUtil;
 
 class GameButton extends FlxUITypedButton<GameFont> implements IUIElement
 {
@@ -76,7 +75,7 @@ class GameButton extends FlxUITypedButton<GameFont> implements IUIElement
 		
 		_sprSelected = new FlxSprite(0, 0);
 		var b:BitmapData = new BitmapData(w, h, true, FlxColor.WHITE);
-		updateFrameData();
+		updateFramePixels();
 		var b2:BitmapData = new BitmapData(w + 4, h + 4, true, 0x0);
 		
 		for (sx in 0...5)
@@ -87,7 +86,7 @@ class GameButton extends FlxUITypedButton<GameFont> implements IUIElement
 			}
 		}
 		_sprSelected.pixels = b2;
-		_sprSelected.updateFrameData();
+		_sprSelected.updateFramePixels();
 		_sprSelected.dirty = true;
 		
 		_sprSelected.x = x - 2;

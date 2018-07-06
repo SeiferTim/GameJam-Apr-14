@@ -52,7 +52,7 @@ class ColorThing extends FlxGroup
 		
 	}
 	
-	override public function update():Void 
+	override public function update(elapsed:Float):Void 
 	{
 		if (_dir == FlxObject.LEFT)
 		{
@@ -76,7 +76,7 @@ class ColorThing extends FlxGroup
 				_body2.x = _body1.x - _body2.width + 1;
 		}
 		
-		super.update();
+		super.update(elapsed);
 	}
 	
 }

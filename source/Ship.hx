@@ -1,14 +1,11 @@
 package ;
 
-import flixel.effects.particles.FlxEmitterExt;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
-import flixel.group.FlxTypedGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxRandom;
-import flixel.util.FlxRect;
-using flixel.util.FlxSpriteUtil;
+import flixel.math.FlxRect;
 
 class Ship extends FlxGroup
 {
@@ -99,7 +96,7 @@ class Ship extends FlxGroup
 		}
 	}
 	
-	override public function update():Void 
+	override public function update(elapsed:Float):Void 
 	{
 		if (!_emitted)
 		{
@@ -114,21 +111,21 @@ class Ship extends FlxGroup
 				{
 					e = new Engine();
 				}
-				e.reset(_ship.x +20, _ship.y + (_ship.height * .25) + 25 +( i*6)+FlxRandom.intRanged(0,3));
+				e.reset(_ship.x +20, _ship.y + (_ship.height * .25) + 25 +( i*6)+FlxG.random.int(0,3));
 				_engines.add(e);
 			}
 			
 			
 			for (i in 0...3)
 			{
-				if (_engine2online || FlxRandom.chanceRoll(10))
+				if (_engine2online || FlxG.random.bool(10))
 				{
 					e  = _engines.recycle();
 					if (e == null)
 					{
 						e = new Engine();
 					}
-					e.reset(_ship.x +10, _ship.y + (_ship.height * .75)-(i*6)-FlxRandom.intRanged(0,3));
+					e.reset(_ship.x +10, _ship.y + (_ship.height * .75)-(i*6)-FlxG.random.int(0,3));
 					_engines.add(e);
 				}
 			}
@@ -136,7 +133,7 @@ class Ship extends FlxGroup
 			
 			for (i in 0...3)
 			{
-				if (_engine3online || FlxRandom.chanceRoll(10))
+				if (_engine3online || FlxG.random.bool(10))
 				{
 					e = _engines.recycle();
 				
@@ -144,13 +141,13 @@ class Ship extends FlxGroup
 					{
 						e = new Engine();
 					}
-					e.reset(_ship.x +30, _ship.y + (_ship.height * .5) +( i*6)+FlxRandom.intRanged(0,3));
+					e.reset(_ship.x +30, _ship.y + (_ship.height * .5) +( i*6)+FlxG.random.int(0,3));
 					_engines.add(e);
 				}
 			}
 		}
 		_emitted = !_emitted;
 		
-		super.update();
+		super.update(elapsed);
 	}
 }

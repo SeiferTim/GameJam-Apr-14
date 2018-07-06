@@ -1,17 +1,18 @@
 package;
 
-import flixel.addons.effects.FlxWaveSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.ui.FlxButton;
-import flixel.util.FlxMath;
+
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import flixel.util.FlxSpriteUtil;
-using flixel.util.FlxSpriteUtil;
+
+#if desktop
+import flixel.ui.FlxButton;
+#end
+
 /**
  * A FlxState which can be used for the game's menu.
  */
@@ -23,6 +24,10 @@ class MenuState extends FlxState
 	
 	private var _logo:FlxSprite;
 	
+	#if desktop
+	private var _btnFS:FlxButton;
+	private var _btnClose:FlxButton;
+	#end
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -32,22 +37,32 @@ class MenuState extends FlxState
 		Reg.init();
 		
 		var stars:StarBackground = new StarBackground(0, 0, Std.int(FlxG.width * 1.5), Std.int(FlxG.height * 1.5),500);
-		FlxSpriteUtil.screenCenter(stars, true, true);
+		stars.screenCenter(FlxAxes.XY);
 		//stars.starXOffset = 100;
 		stars.angularVelocity = 6;
 		add(stars);
 		
 		_logo = new FlxSprite(0, 0, "assets/images/logo.png");
-		_logo.screenCenter(true, true);
+		_logo.screenCenter(FlxAxes.XY);
 		_logo.alpha = 0;
 		add(_logo);
 		
 		_btnPlay = new GameButton(0, 0, "Play", goPlay, GameButton.STYLE_BLUE, true, 0, 0, 32);
-		FlxSpriteUtil.screenCenter(_btnPlay, true, false);
+		_btnPlay.screenCenter(FlxAxes.X);
 		_btnPlay.y = FlxG.height - _btnPlay.height - 10;
 		_btnPlay.onUp.sound = null;
 		_btnPlay.alpha = 0;
 		add(_btnPlay);
+		
+		#if desktop
+		_btnClose = new FlxButton(FlxG.width - 40, 8, "", Reg.exit);
+		_btnClose.loadGraphic("assets/images/close.png", true, 32, 32);
+		add(_btnClose);
+		_btnFS = new FlxButton(FlxG.width - 76, 8, "", Reg.fullscreen);
+		_btnFS.loadGraphic("assets/images/fullscreen.png", true, 32, 32);
+		add(_btnFS);
+		#end
+		
 		
 		GameControls.newState([_btnPlay]);
 		
@@ -105,11 +120,11 @@ class MenuState extends FlxState
 	/**
 	 * Function that is called once every frame.
 	 */
-	override public function update():Void
+	override public function update(elapsed:Float):Void
 	{
 		GameControls.checkScreenControls();
 		
-		super.update();
+		super.update(elapsed);
 		
 		
 		

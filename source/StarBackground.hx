@@ -3,11 +3,8 @@ package ;
 import flash.display.BitmapData;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
-import flixel.util.FlxRandom;
-import flixel.util.FlxRect;
 
 class StarBackground extends FlxSprite
 {
@@ -30,7 +27,7 @@ class StarBackground extends FlxSprite
 		var star:Star;
 		for (i in 0...StarCount)
 		{
-			star = new Star(i,Std.int(FlxRandom.intRanged(0,Width)), Std.int(FlxRandom.intRanged(0, Height)));
+			star = new Star(i,Std.int(FlxG.random.int(0,Width)), Std.int(FlxG.random.int(0, Height)));
 			_stars.push(star);
 		}
 		_depthColours = FlxGradient.createGradientArray(1, 10, [0xff585858, 0xffF4F4F4]);
@@ -81,7 +78,7 @@ class StarBackground extends FlxSprite
 			_canvas.unlock();
 			
 			pixels = _canvas;
-			updateFrameData();
+			updateFramePixels();
 		
 		super.draw();
 	}

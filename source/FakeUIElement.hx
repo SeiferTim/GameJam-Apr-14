@@ -1,18 +1,15 @@
 package ;
 
-import flash.display.BitmapData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
-import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxSpriteUtil;
-import haxe.Constraints.Function;
 
 class FakeUIElement extends FlxSprite implements IUIElement
 {
 
 	public var selected:Bool = false;
-	public var toggled:Bool = false;
+	public var toggled(default, set):Bool = false;
 	public var onX:Void->Void;
 	public var onInput:Int->Void;
 	
@@ -72,7 +69,7 @@ class FakeUIElement extends FlxSprite implements IUIElement
 	}
 	
 	
-	override public function update():Void 
+	override public function update(elapsed:Float):Void 
 	{
 		if (selected)
 		{
@@ -89,7 +86,13 @@ class FakeUIElement extends FlxSprite implements IUIElement
 			visible = false;
 		}
 
-		super.update();
+		super.update(elapsed);
+	}
+	
+	private function set_toggled(Value:Bool):Bool
+	{
+		toggled = Value;
+		return toggled;
 	}
 	
 }

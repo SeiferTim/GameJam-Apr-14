@@ -1,0 +1,7 @@
+<TextureAtlas imagePath="sprites.png">
+	<SubTexture name="Captain_head.png" x="161" y="201" width="161" height="201" frameX="-40" frameY="-16" frameWidth="217" frameHeight="217" />
+	<SubTexture name="Doctor_head.png" x="322" y="0" width="161" height="201" frameX="-40" frameY="-16" frameWidth="217" frameHeight="217" />
+	<SubTexture name="Engineer_head.png" x="0" y="201" width="161" height="201" frameX="-40" frameY="-16" frameWidth="217" frameHeight="217" />
+	<SubTexture name="Gunner_head.png" x="0" y="0" width="161" height="201" frameX="-40" frameY="-16" frameWidth="217" frameHeight="217" />
+	<SubTexture name="Pilot_head.png" x="161" y="0" width="161" height="201" frameX="-40" frameY="-16" frameWidth="217" frameHeight="217" />
+</TextureAtlas>

@@ -2,7 +2,7 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="Aethon - Mission to Mars" file="Aethon" main="Main" version="1.0.1" company="Tile Isle" />
+	<app title="Aethon - Mission to Mars" file="Aethon" main="Main" version="1.0.2" company="Axol Studio, LLC" />
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file, or you can set the actual size of your file manually at "Flxpreloader-onUpdate-bytesTotal"!-->
 	<app preloader="MyPreloader" />
@@ -32,7 +32,7 @@
 	<!--You can use rename="newName" to shorten the paths to individual subdirectories!-->
 	<assets path="assets" />
 	<assets path="assets/data" rename="data" />
-	<assets path="assets/images" rename="images" include="*.png" />
+	<assets path="assets/images" rename="images" include="*.png|*.xml" />
 	<assets path="assets/fonts" rename="fonts" include="*.ttf" />
 	<assets path="assets/sounds" rename="sounds" include="*.wav" />
 	

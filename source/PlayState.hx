@@ -1,25 +1,21 @@
 package;
 
 import flash.geom.Rectangle;
-import flixel.addons.effects.FlxGlitchSprite;
-import flixel.addons.ui.FlxUIButton;
-import flixel.addons.ui.FlxUITypedButton;
+import flixel.addons.effects.chainable.FlxGlitchEffect;
+import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.ui.FlxButton;
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import flixel.util.FlxColorUtil;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxGradient;
-import flixel.util.FlxMath;
-import flixel.util.FlxRandom;
-import flixel.util.FlxRect;
-import lime.Constants.Window;
+import flixel.math.FlxRect;
+
 using flixel.util.FlxSpriteUtil;
 using StringTools;
 
@@ -45,8 +41,11 @@ class PlayState extends FlxState
 	private var _txtChoice1Main:GameFont;
 	private var _txtChoice2Main:GameFont;
 	
-	private var _txtChoice1:FlxGlitchSprite;
-	private var _txtChoice2:FlxGlitchSprite;
+	private var _txtChoice1:FlxEffectSprite;
+	private var _txtChoice2:FlxEffectSprite;
+	
+	private var glitch1:FlxGlitchEffect;
+	private var glitch2:FlxGlitchEffect;
 	
 	private var _fakeChoice1:FakeUIElement;
 	private var _fakeChoice2:FakeUIElement;
@@ -61,7 +60,8 @@ class PlayState extends FlxState
 	private var _txtWeek:GameFont;
 	private var _strWeek:String = "Week [weekno]";
 	
-	private var _txtEvent:FlxGlitchSprite;
+	private var _txtEvent:FlxEffectSprite;
+	private var glitchEvent:FlxGlitchEffect;
 	private var _txtEventMain:GameFont;
 	private var _eventTxtNo:Int;
 	
@@ -95,6 +95,13 @@ class PlayState extends FlxState
 	private var _sprs:Array<FlxSprite> = [];
 	
 	private var ChoiceSound:String = "sounds/switch.wav";
+	
+	private var head_back_left:FlxSprite;
+	private var head_back_right:FlxSprite;
+	private var head_left:FlxSprite;
+	private var head_right:FlxSprite;
+	private var head_text_left:GameFont;
+	private var head_text_right:GameFont;
 	
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -164,7 +171,7 @@ class PlayState extends FlxState
 		_grpPlayerSelect.add(_txtChoose);
 		
 		_txtChoose.text = _strChoose.replace("[playerno]", Std.string(_playerChooseNo + 1));
-		_txtChoose.screenCenter(true, false);
+		_txtChoose.screenCenter(FlxAxes.X);
 		
 		var _stats:StatKey = new StatKey();
 		
@@ -203,7 +210,6 @@ class PlayState extends FlxState
 			else
 			{
 				_txtChoose.text = _strChoose.replace("[playerno]", Std.string(_playerChooseNo + 1));
-				GameControls.moveCursor(POSITIVE);
 			}
 		}
 	}
@@ -227,11 +233,9 @@ class PlayState extends FlxState
 		_txtEventMain = new GameFont(20, FlxG.height * 0.65, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE, Std.int(FlxG.width - 40));
 		_txtEventMain = new GameFont(20, FlxG.height * 0.65, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE, Std.int(FlxG.width - 40));
 		
-		_txtEvent = new FlxGlitchSprite(_txtEventMain, 100);
-		_txtEvent.initPixels();
-		
-		
-		
+		glitchEvent = new FlxGlitchEffect(4, 1, 0.05, FlxGlitchDirection.HORIZONTAL);
+		_txtEvent = new FlxEffectSprite(_txtEventMain, [glitchEvent]);
+		_txtEvent.setPosition(_txtEventMain.x, _txtEventMain.y);
 		
 		_btnNext = new GameButton(0, 0, "NEXT", advanceEvent, GameButton.STYLE_GREEN, true, 0, 0, 24);
 		_btnNext.x = FlxG.width - _btnNext.width - 16;
@@ -240,19 +244,25 @@ class PlayState extends FlxState
 		
 		
 		_txtChoice1Main = new GameFont(160, FlxG.height * 0.65, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE, Std.int(FlxG.width - 180));
-		_txtChoice1 = new FlxGlitchSprite(_txtChoice1Main, 100);
-		_txtChoice1.initPixels();
+		
+		glitch1 = new FlxGlitchEffect(4, 1, 0.05, FlxGlitchDirection.HORIZONTAL);
+		
+		_txtChoice1 = new FlxEffectSprite(_txtChoice1Main, [glitch1]);
 		_txtChoice1.alpha = 0;
+		_txtChoice1.setPosition(_txtChoice1Main.x, _txtChoice1Main.y);
 		
 		_txtChoice2Main = new GameFont(160, _txtChoice1.y + (_txtChoice1.height*2), "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEWHITE, "left", EVENT_TEXT_SIZE,Std.int(FlxG.width - 180));
-		_txtChoice2 = new FlxGlitchSprite(_txtChoice2Main, 100);
-		_txtChoice2.initPixels();
+		
+		glitch2 = new FlxGlitchEffect(4, 1, 0.05, FlxGlitchDirection.HORIZONTAL);
+		
+		_txtChoice2 = new FlxEffectSprite(_txtChoice2Main, [glitch2]);
 		_txtChoice2.alpha = 0;
+		_txtChoice2.setPosition(_txtChoice2Main.x, _txtChoice2Main.y);
 		
 		_grpChoices  = new FlxGroup();
 
 		_txtDesc = new GameFont(0, 0, _strDesc, GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEGOLD, "center", EVENT_TEXT_SIZE, 0);
-		_txtDesc.screenCenter(true, false);
+		_txtDesc.screenCenter(FlxAxes.X);
 		_txtDesc.y = _txtChoice1.y - _txtDesc.height - 10;
 		
 		_playerBack = FlxGradient.createGradientFlxSprite(FlxG.width, Std.int(_txtDesc.height + 6), [0xff000000, 0xff000000, 0xff000000], 1, 0);
@@ -290,6 +300,54 @@ class PlayState extends FlxState
 		_ship = new Ship(FlxRect.get(_stars.x, _stars.y, _stars.width, _stars.height));
 		add(_ship);
 		
+		head_back_left = drawRoundBox(0, 0, 218, 218);
+		head_back_left.x = 30;
+		head_back_left.y = _txtEventMain.y - 288;
+		head_back_left.visible = false;
+		add(head_back_left);
+		
+		head_back_right = drawRoundBox(0, 0, 218, 218);
+		head_back_right.x = FlxG.width - 248;
+		head_back_right.y = _txtEventMain.y - 288;
+		head_back_right.visible = false;
+		add(head_back_right);
+		
+		var t:FlxAtlasFrames = FlxAtlasFrames.fromSparrow("images/heads.png", "images/heads.xml");
+		
+		
+		head_left = new FlxSprite();
+		head_left.frames = t;
+		head_left.animation.addByNames("c", ["Captain_head.png"]);
+		head_left.animation.addByNames("d", ["Doctor_head.png"]);
+		head_left.animation.addByNames("e", ["Engineer_head.png"]);
+		head_left.animation.addByNames("g", ["Gunner_head.png"]);
+		head_left.animation.addByNames("p", ["Pilot_head.png"]);
+		head_left.x = head_back_left.x;
+		head_left.y = head_back_left.y;
+		head_left.flipX = true;
+		head_left.visible = false;
+		add(head_left);
+		
+		head_text_left = new GameFont(head_back_left.x, head_back_left.y +2, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEBLUE, "center", 18, 218);
+		head_text_left.visible = false;
+		add(head_text_left);
+		
+		head_right = new FlxSprite();
+		head_right.frames = t;
+		head_right.animation.addByNames("c", ["Captain_head.png"]);
+		head_right.animation.addByNames("d", ["Doctor_head.png"]);
+		head_right.animation.addByNames("e", ["Engineer_head.png"]);
+		head_right.animation.addByNames("g", ["Gunner_head.png"]);
+		head_right.animation.addByNames("p", ["Pilot_head.png"]);
+		head_right.x = head_back_right.x;
+		head_right.y = head_back_right.y;
+		head_right.visible = false;
+		add(head_right);
+		
+		head_text_right = new GameFont(head_back_right.x, head_back_right.y + 2, "", GameFont.STYLE_SMSIMPLE, GameFont.COLOR_SIMPLEBLUE, "center", 18, 218);
+		head_text_right.visible = false;
+		add(head_text_right);
+		
 		startEvent();
 		
 		FlxG.camera.fade(FlxColor.BLACK, .33, true, doneChooseFadeIn, true);
@@ -308,7 +366,7 @@ class PlayState extends FlxState
 		GameControls.canInteract = false;
 		_fakeChoice1.kill();
 		_fakeChoice2.kill();
-		FlxTween.num(1, 0, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete: doneChoicesOut }, txtChoicesAlpha);
+		FlxTween.num(1, 0, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete: doneChoicesOut }, txtChoicesAlpha);
 		_eventChoice = 0;
 		
 	}
@@ -318,7 +376,7 @@ class PlayState extends FlxState
 		GameControls.canInteract = false;
 		_fakeChoice1.kill();
 		_fakeChoice2.kill();
-		FlxTween.num(1, 0, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete: doneChoicesOut }, txtChoicesAlpha);
+		FlxTween.num(1, 0, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete: doneChoicesOut }, txtChoicesAlpha);
 		_eventChoice = 1;
 		
 	}
@@ -331,7 +389,7 @@ class PlayState extends FlxState
 	
 	private function checkPassFail():Void
 	{
-		if (FlxRandom.chanceRoll(_players[_eventPlayerNo].stats[Reg.events[_weekNo].choices[_eventChoice].stat] * 10))
+		if (FlxG.random.bool(_players[_eventPlayerNo].stats[Reg.events[_weekNo].choices[_eventChoice].stat] * 10))
 			_eventPass = true;
 		else 
 			_eventPass = false;
@@ -346,23 +404,24 @@ class PlayState extends FlxState
 		_eventTxtNo = 0;
 		_txtWeek.text = _strWeek.replace("[weekno]", Std.string(_weekNo + 1));
 		_eventPlayerNo = getPlayerByRole( Reg.events[_weekNo].activePlayer);
-		Reg.PlaySound("sounds/Week Screen.wav", .8);
+		
 		_txtDesc.text = _strDesc.replace("[playerno]", Std.string(_eventPlayerNo + 1)).replace("[role]", Enums.getRole(Reg.events[_weekNo].activePlayer));
-		_txtDesc.screenCenter(true, false);
+		_txtDesc.screenCenter(FlxAxes.X);
 		makePlayerBack(Reg.events[_weekNo].activePlayer);
 		
+		head_back_left.visible = head_back_right.visible = head_left.visible = head_right.visible = false;
 		
 		setEventText();
 	}
 	
 	private function makePlayerBack(Role:Int):Void
 	{
-		_playerBack.pixels =  FlxGradient.createGradientBitmapData(FlxG.width, Std.int(_txtDesc.height + 2), [FlxColorUtil.darken( Enums.getRoleColor(Role), .6), 0xff000000, FlxColorUtil.darken(Enums.getRoleColor(Role), .6)], 1, 0);
+		_playerBack.pixels =  FlxGradient.createGradientBitmapData(FlxG.width, Std.int(_txtDesc.height + 2), [ FlxColor.getDarkened( Enums.getRoleColor(Role), .6), 0xff000000, FlxColor.getDarkened(Enums.getRoleColor(Role), .6)], 1, 0);
 		var r:Rectangle = new Rectangle();
 		r.setTo(0, 0, FlxG.width, 1);
-		_playerBack.pixels.fillRect(r, FlxColorUtil.darken( Enums.getRoleColor(Role), .2));
+		_playerBack.pixels.fillRect(r, FlxColor.getDarkened( Enums.getRoleColor(Role), .2));
 		r.setTo(0, _playerBack.height - 1, FlxG.width, 1);
-		_playerBack.pixels.fillRect(r, FlxColorUtil.darken( Enums.getRoleColor(Role), .4));
+		_playerBack.pixels.fillRect(r, FlxColor.getDarkened( Enums.getRoleColor(Role), .4));
 		
 	}
 	
@@ -376,8 +435,68 @@ class PlayState extends FlxState
 		return -1;
 	}
 	
+	private function checkHeads(Text:String):String
+	{
+		var LeftHead = ~/\[L([CDEGP])\]/;
+		var RightHead = ~/\[R([CDEGP])\]/;
+		if (LeftHead.match(Text))
+		{
+			head_left.animation.play(LeftHead.matched(1).toLowerCase());
+			head_text_left.text = switch(LeftHead.matched(1).toLowerCase()) {
+				case "c":
+					"Captain";
+				case "d":
+					"Doctor";
+				case "e":
+					"Engineer";
+				case "g":
+					"Gunner";
+				case "p":
+					"Pilot";
+				default:
+					"";
+			};
+			head_text_left.x = head_back_left.x + (head_back_left.width / 2) - (head_text_left.width / 2);
+			head_text_left.visible = head_back_left.visible = head_left.visible = true;
+			Text = LeftHead.replace(Text, "");
+		}
+		else
+		{
+			head_text_left.visible = head_back_left.visible = head_left.visible = false;
+		}
+		
+		if (RightHead.match(Text))
+		{
+			head_right.animation.play(RightHead.matched(1).toLowerCase());
+			head_text_right.text = switch(RightHead.matched(1).toLowerCase()) {
+				case "c":
+					"Captain";
+				case "d":
+					"Doctor";
+				case "e":
+					"Engineer";
+				case "g":
+					"Gunner";
+				case "p":
+					"Pilot";
+				default:
+					"";
+			};
+			head_text_right.x = head_back_right.x + (head_back_right.width / 2) - (head_text_right.width / 2);
+			head_text_right.visible = head_back_right.visible = head_right.visible = true;
+			Text = RightHead.replace(Text, "");
+		}
+		else
+		{
+			head_text_right.visible = head_back_right.visible = head_right.visible = false;
+		}
+		return Text;
+	}
+	
 	private function setEventText():Void
 	{
+		head_text_left.visible = head_back_left.visible = head_left.visible = false;
+		head_text_right.visible = head_back_right.visible = head_right.visible = false;
 		
 		if (_eventStage== STAGE_OPENING)
 		{
@@ -385,12 +504,14 @@ class PlayState extends FlxState
 			{
 				Reg.events[_weekNo].opening[_eventTxtNo] = Reg.events[_weekNo].opening[_eventTxtNo].substring(1, Reg.events[_weekNo].opening[_eventTxtNo].length - 1);
 				FlxG.camera.shake(0.025, 0.25);
+				Reg.PlaySound("sounds/Week Screen.wav", .8);
 			}
-			_txtEventMain.text = Reg.events[_weekNo].opening[_eventTxtNo];
-			_txtEvent.initPixels();
+			
+			_txtEventMain.text = checkHeads(Reg.events[_weekNo].opening[_eventTxtNo]);
+			
 			_txtEvent.alpha = 0;
 			_ship.problem(_weekNo);
-			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextIn }, txtEventAlpha);
+			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete:doneEventTextIn }, txtEventAlpha);
 			GameControls.changeUIs([_btnNext]);
 		}
 		else if (_eventStage == STAGE_SHOWCHOICES)
@@ -399,10 +520,11 @@ class PlayState extends FlxState
 			_txtChoice2Main.text = Reg.events[_weekNo].choices[1].texts[0];
 			_txtChoice2Main.y = _txtChoice1Main.y + _txtChoice1Main.height + 10;
 			
-			_txtChoice1Main.updateFrameData();
+			_txtChoice1.setPosition(_txtChoice1Main.x, _txtChoice1Main.y);
+			_txtChoice2.setPosition(_txtChoice2Main.x, _txtChoice2Main.y);
+			
+			_txtChoice1Main.updateFramePixels();
 			_txtChoice1Main.draw();
-			_txtChoice1.initPixels();
-			_txtChoice2.initPixels();
 			
 			if (_fakeChoice1 != null)
 				_fakeChoice1 = FlxDestroyUtil.destroy(_fakeChoice1);
@@ -423,21 +545,37 @@ class PlayState extends FlxState
 			
 			_choices = [_fakeChoice1, _fakeChoice2];
 			
-			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneChoicesIn }, txtChoicesAlpha);
+			head_right.animation.play(switch (Enums.getRole(_players[_eventPlayerNo].role)) {
+				case "Captain":
+					"c";
+				case "Doctor":
+					"d";
+				case "Engineer":
+					"e";
+				case "Gunner":
+					"g";
+				case "Pilot":
+					"p";
+				default:
+					"";
+			});
+			head_back_right.visible = head_right.visible = true;
+			
+			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete:doneChoicesIn }, txtChoicesAlpha);
 			GameControls.changeUIs(_choices);
 		}
 		else if (_eventStage == STAGE_SHOWOUTCOME)
 		{
 			if (_eventPass)
 			{
-				_txtEventMain.text = Reg.events[_weekNo].choices[_eventChoice].passTexts[_eventTxtNo];
+				_txtEventMain.text = checkHeads(Reg.events[_weekNo].choices[_eventChoice].passTexts[_eventTxtNo]);
 				_ship.fixed(_weekNo);
 			}
 			else
-				_txtEventMain.text = Reg.events[_weekNo].choices[_eventChoice].failTexts[_eventTxtNo];
-			_txtEvent.initPixels();
+				_txtEventMain.text = checkHeads(Reg.events[_weekNo].choices[_eventChoice].failTexts[_eventTxtNo]);
+			
 			_txtEvent.alpha = 0;
-			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextIn }, txtEventAlpha);
+			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete:doneEventTextIn }, txtEventAlpha);
 			GameControls.changeUIs([_btnNext]);
 		}
 		else if (_eventStage == STAGE_RESOLVE)
@@ -453,9 +591,9 @@ class PlayState extends FlxState
 				_players[_eventPlayerNo].stats[Reg.events[_weekNo].choices[_eventChoice].failResult]--;
 				Reg.flags.push(Reg.events[_weekNo].choices[_eventChoice].flag);
 			}
-			_txtEvent.initPixels();
+			
 			_txtEvent.alpha = 0;
-			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextIn }, txtEventAlpha);
+			FlxTween.num(0, 1, .33, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete:doneEventTextIn }, txtEventAlpha);
 			GameControls.changeUIs([_btnNext]);
 			
 		}
@@ -469,9 +607,6 @@ class PlayState extends FlxState
 	private function doneChoicesIn(T:FlxTween):Void
 	{
 		GameControls.canInteract = true;
-		GameControls.moveCursor(POSITIVE);
-		//_fakeChoice1.active = true;
-		//_fakeChoice2.active = true;
 		
 		
 	}
@@ -479,7 +614,7 @@ class PlayState extends FlxState
 	private function txtChoicesAlpha(Value:Float):Void
 	{
 		_chart.alpha = _txtChoice1.alpha = _txtChoice2.alpha = Value;
-		_txtChoice1.strength = _txtChoice2.strength = Std.int(100 - (Value * 100));
+		glitch2.strength = glitch1.strength = Std.int(100 - (Value * 100));
 	}
 	
 	private function advanceEvent():Void
@@ -488,7 +623,7 @@ class PlayState extends FlxState
 			return;
 		GameControls.canInteract = false;
 		_btnNext.active = false;
-		FlxTween.num(1, 0, .2, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventTextOut }, txtEventAndBtnNextAlpha);
+		FlxTween.num(1, 0, .2, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete:doneEventTextOut }, txtEventAndBtnNextAlpha);
 	}
 	
 	private function doneEventTextOut(T:FlxTween):Void
@@ -561,12 +696,12 @@ class PlayState extends FlxState
 	private function txtEventAndBtnNextAlpha(Value:Float):Void
 	{
 		_txtEvent.alpha = _btnNext.alpha = Value;
-		_txtEvent.strength = Std.int(100 - (Value * 100));
+		glitchEvent.strength = Std.int(100 - (Value * 100));
 	}
 	
 	private function doneEventTextIn(T:FlxTween):Void
 	{
-		FlxTween.num(0, 1, .2, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, complete:doneEventNextIn }, btnNextAlpha);
+		FlxTween.num(0, 1, .2, { type:FlxTween.ONESHOT, ease:FlxEase.circInOut, onComplete:doneEventNextIn }, btnNextAlpha);
 	}
 	
 	private function doneEventNextIn(T:FlxTween):Void
@@ -574,7 +709,7 @@ class PlayState extends FlxState
 		GameControls.canInteract = true;
 		
 		_btnNext.active = true;
-		GameControls.moveCursor(POSITIVE);
+		
 	}
 	
 	private function btnNextAlpha(Value:Float):Void
@@ -585,13 +720,13 @@ class PlayState extends FlxState
 	private function txtEventAlpha(Value:Float):Void
 	{
 		_txtEvent.alpha = Value;
-		_txtEvent.strength = Std.int(100 - (Value * 100));
+		glitchEvent.strength = Std.int(100 - (Value * 100));
 	}
 	
 	private function doneChooseFadeIn():Void
 	{
 		GameControls.canInteract = true;
-		GameControls.moveCursor(POSITIVE);
+		
 	}
 	
 	private function buildPlayers():Void
@@ -620,7 +755,7 @@ class PlayState extends FlxState
 					rStat = 0;
 					while (rStat == 0)
 					{
-						rStat = FlxRandom.intRanged(0, stats.length - 1, newStats);
+						rStat = FlxG.random.int(0, stats.length - 1, newStats);
 					}
 					newStats.push(stats[rStat]);
 				}
@@ -644,27 +779,10 @@ class PlayState extends FlxState
 	/**
 	 * Function that is called once every frame.
 	 */
-	override public function update():Void
+	override public function update(elapsed:Float):Void
 	{
-		if (_btnNext != null && _btnNext.alive && _btnNext.exists && _btnNext.visible && _btnNext.active && _btnNext.alpha == 1 && GameControls.canInteract)
-		{
-			#if !FLX_NO_KEYBOARD
-			if (FlxG.keys.justReleased.ANY)
-			{
-				_btnNext.forceStateHandler(FlxUITypedButton.CLICK_EVENT);
-			}
-			#end
-			#if !FLX_NO_GAMEPAD
-			if (GameControls.hasGamepad)
-			{
-				if (GameControls.gamepad.anyInput())
-				{
-					_btnNext.forceStateHandler(FlxUITypedButton.CLICK_EVENT);
-				}
-			}
-			#end
-		}
+
 		GameControls.checkScreenControls();
-		super.update();
+		super.update(elapsed);
 	}	
 }

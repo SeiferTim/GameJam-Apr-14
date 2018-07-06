@@ -3,7 +3,7 @@
 
 #define MyAppName "Aethon - Mission to Mars"
 #define MyAppVersion "1.0.0"
-#define MyAppPublisher "Tile Isle"
+#define MyAppPublisher "Axol Studio, LLC"
 ;#define MyAppURL "http://dinoghost.tims-world.com/"
 #define MyAppExeName "Aethon.exe"
 
@@ -23,7 +23,7 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputBaseFilename={#MyAppName}-Install
-SetupIconFile=C:\Users\Tim\Documents\GameJam-Apr-14\export\windows\cpp\bin\icon.ico
+SetupIconFile=C:\Users\thely\Documents\GameJam-Apr-14\export\windows\bin\icon.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -36,15 +36,13 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 ;Source: "C:\Users\Tim\Documents\GameJam-Apr-14\export\windows\cpp\binAethon.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Tim\Documents\GameJam-Apr-14\export\windows\cpp\bin\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\thely\Documents\GameJam-Apr-14\export\windows\bin\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-;Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppPublisher}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
